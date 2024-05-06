@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stellar SDK Sample</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:ital,wght@0,400;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #fdda24; /* Golden yellow background */
+        color: #002e5d; /* Deep navy blue text */
+        font-family: "Lora", serif; /* Elegant serif font for text */
+      }
+      .container {
+        background-color: #ffffff; /* White background for form area */
+
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      label {
+        font-family: "Inter", sans-serif; /* Modern sans-serif font for headings and labels */
+        color: #002e5d; /* Deep navy blue text */
+      }
+      input,
+      select,
+      button {
+        background-color: #ffffff; /* White background for input fields */
+        color: #002e5d; /* Deep navy text for contrast */
+        border: 2px solid #002e5d; /* Navy border for definition */
+        border-radius: 5px; /* Rounded corners for a soft look */
+        font-family: "Inter", sans-serif; /* Consistent font for UI elements */
+      }
+      button {
+        background-color: #002e5d; /* Navy blue background for buttons */
+        color: #ffffff; /* White text for high contrast */
+        font-weight: 600; /* Bold font weight for button text */
+      }
+      button:hover {
+        background-color: #001a40; /* Darker shade of navy for hover effect */
+        border-color: #001a40; /* Border color matches hover background */
+      }
+      input:focus,
+      select:focus,
+      button:focus {
+        box-shadow: 0 0 0 2px #fdda24; /* Golden yellow focus ring */
+      }
+      .form-group {
+        margin-bottom: 1.5rem; /* Adequate spacing between form fields */
+      }
+    </style>
+  </head>
+  <body class="container mt-5">
+    <h1 class="mb-4">Merchant SDK Sample</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="environment">Select Environment:</label>
+          <select id="environment" class="form-control">
+            <option value="staging">Staging</option>
+            <option value="production" selected>Production</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div class="form-group d-none">
+          <label for="customEnvironment">Custom Environment:</label>
+          <input
+            type="text"
+            id="customEnvironment"
+            class="form-control"
+            placeholder="Enter custom environment"
+          />
+        </div>
+        <div class="form-group">
+          <label for="apiKey">API Key:</label>
+          <input
+            type="text"
+            id="apiKey"
+            class="form-control"
+            placeholder="XXXX-XXXX-XXXX-XXXX"
+            value="4C3D-2E1F-7G8H-5I6J"
+          />
+        </div>
+        <div class="form-group">
+          <label for="stellarAccountId">Destination Stellar Account ID:</label>
+          <input
+            type="text"
+            id="stellarAccountId"
+            class="form-control"
+            placeholder="G..."
+            value="GB3I2Q2G2VHHNRYXILFVVXFY5GF6XQVFYUV4YGUDV7WKZJZVCKHSWJYI"
+          />
+        </div>
+        <div class="form-group">
+          <label for="stellarCurrencies">Select Currency:</label>
+          <select id="stellarCurrencies" class="form-control"></select>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount:</label>
+          <input
+            type="number"
+            id="amount"
+            class="form-control"
+            placeholder="Enter amount"
+            value="10"
+          />
+        </div>
+        <div class="form-group">
+          <label for="memo">Memo:</label>
+          <input
+            type="text"
+            id="memo"
+            class="form-control"
+            placeholder="Enter memo"
+            value="Vertex"
+          />
+        </div>
+        <div class="form-group">
+          <label for="maxAllowedPayments"
+            >Max allowed payments (optional):</label
+          >
+          <input
+            type="number"
+            id="maxAllowedPayments"
+            class="form-control"
+            placeholder="Enter max allowed payments"
+            value="1"
+          />
+        </div>
+        <div class="form-group">
+          <label for="webhookUrl">Webhook URL (optional):</label>
+          <input
+            type="text"
+            id="webhookUrl"
+            class="form-control"
+            placeholder="Enter webhook URL"
+          />
+        </div>
+        <button id="btnGenerateQR" class="btn btn-primary">
+          Generate QR Code
+        </button>
+      </div>
+      <div class="col-md-6">
+        <div id="qrCodeContainer" class="mt-4"></div>
+      </div>
+    </div>
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Add your BeansMerchantSdk script -->
+    <script type="module">
+      import {
+        BeansMerchantSdk,
+        BeansMerchantSdkEnvironment,
+      } from "../dist/sdk.js";
+      // import {BeansMerchantSdk, BeansMerchantSdkEnvironment}  from 'https://cdn.jsdelivr.net/gh/Beans-BV/merchant_sdk_javascript@latest/dist/sdk.js';
+
+      const environmentSelect = document.getElementById("environment");
+      const customEnvironmentInput =
+        document.getElementById("customEnvironment");
+      const apiKeyInput = document.getElementById("apiKey");
+      const stellarAccountId = document.getElementById("stellarAccountId");
+      const stellarCurrenciesSelect =
+        document.getElementById("stellarCurrencies");
+      const amountInput = document.getElementById("amount");
+      const memoInput = document.getElementById("memo");
+      const maxAllowedPaymentsInput =
+        document.getElementById("maxAllowedPayments");
+      const webhookUrlInput = document.getElementById("webhookUrl");
+      const qrCodeContainer = document.getElementById("qrCodeContainer");
+
+      environmentSelect.addEventListener("change", environmentChanged);
+      customEnvironmentInput.addEventListener("change", initSdk);
+      apiKeyInput.addEventListener("change", initSdk);
+      stellarAccountId.addEventListener("change", initSdk);
+      document
+        .getElementById("btnGenerateQR")
+        .addEventListener("click", generateQrCode, false);
+
+      let sdk;
+
+      function environmentChanged() {
+        const customEnvironmentInput =
+          document.getElementById("customEnvironment");
+        if (environmentSelect.value === "custom") {
+          customEnvironmentInput.parentElement.classList.remove("d-none");
+        } else {
+          customEnvironmentInput.parentElement.classList.add("d-none");
+        }
+        initSdk();
+      }
+
+      function initSdk() {
+        let env;
+        switch (environmentSelect.value) {
+          case "staging":
+            env = BeansMerchantSdkEnvironment.STAGING;
+            break;
+          case "production":
+            env = BeansMerchantSdkEnvironment.PRODUCTION;
+            break;
+          case "custom":
+            env = customEnvironmentInput.value;
+            break;
+        }
+        sdk = new BeansMerchantSdk(env, apiKeyInput.value);
+        stellarCurrenciesSelect.innerHTML = ""; // Clear previous options
+        sdk
+          .fetchStellarCurrencies(stellarAccountId.value)
+          .then((data) => {
+            data.stellarCurrencies.forEach((stellarCurrency) => {
+              const option = document.createElement("option");
+              option.value = stellarCurrency.id;
+              option.textContent = `${stellarCurrency.name} (${stellarCurrency.code})`;
+              stellarCurrenciesSelect.appendChild(option);
+            });
+          })
+          .catch((error) => {
+            console.log("Error fetching currencies:", error);
+          });
+      }
+
+      initSdk();
+
+      function generateQrCode() {
+        if (sdk === undefined) {
+          alert("Please initialize the SDK first");
+          return;
+        }
+        sdk
+          .generateSvgQrCode(
+            stellarAccountId.value,
+            stellarCurrenciesSelect.value,
+            amount.value,
+            memo.value,
+            maxAllowedPayments.value == "" ? null : maxAllowedPayments.value,
+            webhookUrl.value == "" ? null : webhookUrl.value
+          )
+          .then((qrCode) => {
+            qrCodeContainer.innerHTML = qrCode.svgQrCode
+              .replaceAll("#FFFFFF", "#333333")
+              .replaceAll("#000000", "#FFFFFF");
+          })
+          .catch((error) => {
+            alert("Error generating QR code:", error);
+          });
+      }
+    </script>
+  </body>
+</html>

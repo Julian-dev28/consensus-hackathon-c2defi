@@ -1,0 +1,46 @@
+{
+  "name": "beans-merchant-sdk",
+  "description": "Beans Merchant API Library",
+  "version": "1.3.1",
+  "type": "module",
+  "main": "dist/sdk.js",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production webpack",
+    "build:dev": "cross-env NODE_ENV=development webpack",
+    "publish": "npm run build && npm publish",
+    "watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Beans-BV/merchant_sdk_javascript.git"
+  },
+  "keywords": [
+    "beans",
+    "merchant",
+    "api",
+    "stellar",
+    "qr"
+  ],
+  "author": "Beans B.V.",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/eslint": "^8.56.2",
+    "@types/node": "^14.18.63",
+    "cross-env": "^7.0.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^4.9.5",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Beans-BV/merchant_sdk_javascript/issues"
+  },
+  "homepage": "https://www.beansapp.com/",
+  "directories": {
+    "example": "example"
+  }
+}

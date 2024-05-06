@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar SDK Sample</title>
+
+    <!-- Add Bootstrap CSS link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #333; /* Dark grey background */
+            color: #fff; /* White text */
+        }
+        input, select, button {
+            background-color: #666; /* Lighter grey for inputs */
+            color: #fff; /* White text */
+            border-color: #fff; /* White border */
+        }
+    </style>
+</head>
+
+<body class="container mt-5">
+
+    <h1 class="mb-4">Merchant SDK Sample</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="environment">Select Environment:</label>
+                <select id="environment" class="form-control">
+                    <option value="staging" selected>Staging</option>
+                    <option value="production">Production</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+
+            <div class="form-group d-none">
+                <label for="customEnvironment">Custom Environment:</label>
+                <input type="text" id="customEnvironment" class="form-control" placeholder="Enter custom environment" value="" />
+            </div>
+
+            <div class="form-group">
+                <label for="apiKey">API Key:</label>
+                <input type="text" id="apiKey" class="form-control" placeholder="XXXX-XXXX-XXXX-XXXX" value="2B8F-1D7E-C3A1-9B2D" />
+            </div>
+
+            <div class="form-group">
+                <label for="stellarAccountId">Destination Stellar Accound ID:</label>
+                <input type="text" id="stellarAccountId" class="form-control" placeholder="G..." value="GCXQCEJD4T56UQVM3432BCUBD4ULYIZUDUFVGYYCZCOLL36UVNNLGBB5" />
+            </div>
+
+            <div class="form-group">
+                <label for="stellarCurrencies">Select Currency:</label>
+                <select id="stellarCurrencies" class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" class="form-control" placeholder="Enter amount" />
+            </div>
+
+            <div class="form-group">
+                <label for="memo">Memo:</label>
+                <input type="text" id="memo" class="form-control" placeholder="Enter memo" />
+            </div>
+
+            <div class="form-group">
+                <label for="maxAllowedPayments">Max allowed payments (optional) (unlimited is -1) (defaults is 1):</label>
+                <input type="number" id="maxAllowedPayments" class="form-control" placeholder="Enter max allowed payments" />
+            </div>
+
+            <div class="form-group">
+                <label for="webhookUrl">Webhook URL (optional):</label>
+                <input type="text" id="webhookUrl" class="form-control" placeholder="Enter webhook URL" />
+            </div>
+
+            <button id="btnGenerateQR" class="btn btn-primary">Generate QR Code</button>
+        </div>
+        <div class="col-md-6">
+            <div id="qrCodeContainer" class="mt-4"></div>
+        </div>
+
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Add your BeansMerchantSdk script -->
+    <script type="module">
+        import {BeansMerchantSdk, BeansMerchantSdkEnvironment}  from '../dist/sdk.js';
+        // import {BeansMerchantSdk, BeansMerchantSdkEnvironment}  from 'https://cdn.jsdelivr.net/gh/Beans-BV/merchant_sdk_javascript@latest/dist/sdk.js';
+        
+        const environmentSelect = document.getElementById('environment');
+        const customEnvironmentInput = document.getElementById('customEnvironment');
+        const apiKeyInput = document.getElementById('apiKey');
+        const stellarAccountId = document.getElementById('stellarAccountId');
+        const stellarCurrenciesSelect = document.getElementById('stellarCurrencies');
+        const amountInput = document.getElementById('amount');
+        const memoInput = document.getElementById('memo');
+        const maxAllowedPaymentsInput = document.getElementById('maxAllowedPayments');
+        const webhookUrlInput = document.getElementById('webhookUrl');
+        const qrCodeContainer = document.getElementById('qrCodeContainer');
+
+        environmentSelect.addEventListener("change", environmentChanged);
+        customEnvironmentInput.addEventListener('change', initSdk);
+        apiKeyInput.addEventListener('change', initSdk);
+        stellarAccountId.addEventListener('change', initSdk);
+        document.getElementById("btnGenerateQR").addEventListener ("click", generateQrCode, false);
+
+        let sdk;
+
+        function environmentChanged() {
+            const customEnvironmentInput = document.getElementById('customEnvironment');
+            if (environmentSelect.value === 'custom') {
+                customEnvironmentInput.parentElement.classList.remove('d-none');
+            } else {
+                customEnvironmentInput.parentElement.classList.add('d-none');
+            }
+            initSdk();
+        }
+
+        function initSdk() {
+            let env;
+            switch (environmentSelect.value) {
+                case 'staging':
+                    env = BeansMerchantSdkEnvironment.STAGING;
+                    break;
+                case 'production':
+                    env = BeansMerchantSdkEnvironment.PRODUCTION;
+                    break;
+                case 'custom':
+                    env = customEnvironmentInput.value;
+                    break;
+            }
+            sdk = new BeansMerchantSdk(env, apiKeyInput.value);
+            stellarCurrenciesSelect.innerHTML = ''; // Clear previous options
+            sdk.fetchStellarCurrencies(stellarAccountId.value)
+                .then(data => {
+                    data.stellarCurrencies.forEach(stellarCurrency => {
+                        const option = document.createElement('option');
+                        option.value = stellarCurrency.id;
+                        option.textContent = `${stellarCurrency.name} (${stellarCurrency.code})`;
+                        stellarCurrenciesSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.log('Error fetching currencies:', error);
+                });
+        }
+
+        initSdk();
+
+        function generateQrCode() {
+            if (sdk === undefined) {
+                alert('Please initialize the SDK first');
+                return;
+            }
+            sdk.generateSvgQrCode(
+                stellarAccountId.value,
+                stellarCurrenciesSelect.value,
+                amount.value,
+                memo.value,
+                maxAllowedPayments.value == '' ? null : maxAllowedPayments.value,
+                webhookUrl.value == '' ? null : webhookUrl.value)
+                .then(qrCode => {
+                    qrCodeContainer.innerHTML = qrCode.svgQrCode
+                        .replaceAll('#FFFFFF', '#333333')
+                        .replaceAll('#000000', '#FFFFFF');;
+                })
+                .catch(error => {
+                    alert('Error generating QR code:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>

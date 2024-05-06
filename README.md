@@ -60,10 +60,10 @@ The Cash to DeFi track focuses on leveraging the Stellar network to enable seaml
 
 ### For building wallets:
 
-- **Stellar Wallet SDK:** Collection of SDKs for network anchors.
-- **Stellar Quest:** Learn Stellar network fundamentals interactively.
-- **Build Applications Tutorials:** Tutorials focusing on JavaScript wallet functionality.
-- **Stellar Design System:** Components and styles for frontend development.
+- [**Stellar Wallet SDK:**](https://stellar.org/products-and-tools/wallet-sdk) Collection of SDKs for network anchors.
+- [**Stellar Quest:**](https://quest.stellar.org) Learn Stellar network fundamentals interactively.
+- [**Build Applications Tutorials:**](https://developers.stellar.org/docs/building-apps/overview) Tutorials focusing on JavaScript wallet functionality.
+- [**Stellar Design System:**](https://github.com/stellar/stellar-design-system/tree/main) Components and styles for frontend development.
 
 ### Tools:
 

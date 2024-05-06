@@ -8,12 +8,12 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 
 ### Workshop
 
-- **Introduction to Rust and the Development Environment:**
-- **Building a Basic "Hello World" dapp:**
-- **Expanding the Application: Depositors and Balances:**
-- **Application Use Cases: Liquidity Pools and Public Goods:**
-- **Building a Proposal and Design Mock-Up:**
-- **Conclusion and Q&A:**
+- **Introduction to Rust and the Development Environment**
+- **Building a Basic "Hello World" dapp**
+- **Expanding the Application: Depositors and Balances**
+- **Application Use Cases: Liquidity Pools and Public Goods**
+- **Building a Proposal and Design Mock-Up**
+- **Conclusion and Q&A**
 
 ## Workshop Resources
 

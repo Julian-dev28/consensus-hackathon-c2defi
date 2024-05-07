@@ -1,21 +1,18 @@
 [package]
-name = "soroban-liquidity-pool-contract"
+name = "soroban-increment-contract"
 version = "0.0.0"
 edition = "2021"
-rust-version = "1.74.0"
 publish = false
 
 [lib]
 crate-type = ["cdylib"]
+doctest = false
 
 [dependencies]
-soroban-sdk = { version = "20.2.0" }
-num-integer = { version = "0.1.45", default-features = false, features = [
-    "i128",
-] }
+soroban-sdk = { workspace = true }
 
-[dev_dependencies]
-soroban-sdk = { version = "20.2.0", features = ["testutils"] }
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
 
 [profile.release]
 opt-level = "z"

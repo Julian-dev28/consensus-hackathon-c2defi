@@ -87,7 +87,7 @@ The Cash to DeFi track focuses on leveraging the Stellar network to enable seaml
 - **[SDK Library](https://developers.stellar.org/docs/tools/sdks/library):** Stellar boasts an impressive collection of SDKs you can use to interact with the network in almost any language you could ever want.
 - **[Beans POS Merchant SDK](https://github.com/Beans-BV/merchant_sdk_javascript):** SDK powered by Beans Wallet to help developers implement Point-of-Sale functionality into their app using Stellar.
 - **[Create Soroban Dapp Video Workshop](https://youtu.be/LggPeU7qAyE):** Tutorial and walkthrough on how to create a Dapp.
-- **[Sorochat](https://www.youtube.com/watch?v=J9Q6J9Q6J9Q):** Creating a chat Dapp on Soroban - Tutorial. [Video 1](https://youtu.be/rWTpH_o8-W4), [Video 2](https://youtu.be/yQIg0dbzav0).
+- **[Sorochat](https://www.youtube.com/watch?v=rWTpH_o8-W4):** Creating a chat Dapp on Soroban - Tutorial. [Video 1](https://youtu.be/rWTpH_o8-W4), [Video 2](https://youtu.be/yQIg0dbzav0).
 - **[Video Workshop](https://www.youtube.com/watch?v=C7SfumZ3cvo&list=PLfEHHr3qexv9GcL6BzVWTYrlFOhnMJfew&index=14):** How to start developing on Stellar.
 - **[Video Workshop](https://www.youtube.com/watch?v=kkViHXBG_5E):** Build your first wallet on Stellar.
 

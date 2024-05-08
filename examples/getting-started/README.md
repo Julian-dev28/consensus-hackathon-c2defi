@@ -1,9 +1,3 @@
----
-sidebar_position: 0
-title: Setup
-description: Install and configure Rust to deploy smart contracts.
----
-
 <head>
   <title>Install and configure Rust to deploy smart contracts.</title>
   <meta charSet="utf-8" />
@@ -16,10 +10,6 @@ description: Install and configure Rust to deploy smart contracts.
     content="Get setup to write, deploy, and invoke your first Rust smart contract by installing Rust, installing a target, configuring an editor, and installing a CLI."
   />
 </head>
-
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import { getPlatform } from "@site/src/helpers/getPlatform";
 
 Soroban contracts are small programs written in the [Rust] programming language.
 

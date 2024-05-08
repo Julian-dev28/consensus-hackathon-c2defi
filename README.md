@@ -25,7 +25,7 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 
 - **[Stellar Docs: Hello World](https://developers.stellar.org/docs/smart-contracts/getting-started/hello-world):** Learn how to build a basic smart contract application.
 - **[Stellar Docs: Deploy to Testnet](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-to-testnet):** Deploy your smart contract to the Stellar testnet.
-- **BUN JS DEMO HERE:** [BUN JS DEMO](https://bunjsdemo.com)
+- **[Hello World Dapp ](https://github.com/Julian-dev28/consensus-hackathon-c2defi/tree/main/examples/hello-world/hw-dapp):** A basic "Hello World" dapp that demonstrates how to build a simple smart contract application.
 
 ### Expanding the Application: Depositors and Balances
 

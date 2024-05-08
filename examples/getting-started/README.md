@@ -1,5 +1,5 @@
 <head>
-  <title>Install and configure Rust to deploy smart contracts.</title>
+Install and configure Rust to deploy smart contracts.
   <meta charSet="utf-8" />
   <meta
     property="og:title"

@@ -24,7 +24,7 @@ await $`soroban contract build`;
 console.log("built contracts");
 
 const contractId_1 = (
-  await $`soroban contract deploy --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm --network testnet --source owner`.text()
+  await $`soroban contract deploy --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm --network testnet --source owner`.text()
 ).replace(/\W/g, "");
 
 console.log("deployed contracts");
@@ -40,6 +40,6 @@ await Bun.write(".env.local", file);
 console.log("✅");
 
 const bindings =
-  await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm --id ${contractId_1} --network testnet --output-dir ./.soroban/hello-world --overwrite`.text();
+  await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm --id ${contractId_1} --network testnet --output-dir ./.soroban/incrementor-contract --overwrite`.text();
 bindings;
 console.log("generated bindings");

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stellar App</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      window.global = window; // Define global here to ensure it's set before any imports
+    </script>
+  </head>
+  <body>
+    <h1>Stellar Interaction App</h1>
+    <button id="networkBtn">Get Network</button>
+    <input id="toAddress" type="text" placeholder="Enter Stellar address" />
+    <button id="helloBtn">Say Hello</button>
+    <p id="networkDisplay"></p>
+    <!-- Ensure TypeScript is compiled to JavaScript -->
+    <script type="module" src="src/app.ts"></script>
+  </body>
+</html>

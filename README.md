@@ -31,12 +31,12 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 
 - **[Stellar Docs: Storing Data](https://developers.stellar.org/docs/smart-contracts/getting-started/storing-data):** Learn how to store data on the Stellar network.
 - **[Stellar Docs: Deploy Incrementor](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-increment-contract):** Deploy an incrementor contract to the Stellar testnet.
-- **BUN JS DEMO HERE:** [BUN JS DEMO](https://bunjsdemo.com)
+- **[Depositors and Balances Dapp](https://bunjsdemo.com):** An example application that shows how to create a basic dapp with depositors and balances.
 
 ### Application Use Cases: Liquidity Pools and Public Goods
 
-- **TODO:CREATE A SIMPLE LIQUIDITY POOL EXAMPLE:** [LIQUIDITY POOL]()
-- **TODO:CREATE A SIMPLE CROWDFUND - PUBLIC GOODS EXAMPLE:** [PUBLIC GOODS]()
+- **[Liquidity Pool Dapp](./examples/liquidity-pool/lp-dapp):** Learn how to create a simple liquidity pool.
+- **[Public Goods Dapp](./examples/public-goods/public-goods-dapp/s):** Learn how to create a simple crowdfund for public goods.
 
 ### Conclusion and Q&A
 

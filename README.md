@@ -11,9 +11,8 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 - **Introduction to Rust and the Development Environment**
 - **Building a Basic "Hello World" dapp**
 - **Expanding the Application: Depositors and Balances**
-- **Application Use Cases: Liquidity Pools and Public Goods**
-- **Building a Proposal and Design Mock-Up**
-- **Conclusion and Q&A**
+- **Application Use Cases: Public Goods and Liquidity Pools**
+- **Conclusion**
 
 ## Workshop Resources
 
@@ -25,22 +24,21 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 
 - **[Stellar Docs: Hello World](https://developers.stellar.org/docs/smart-contracts/getting-started/hello-world):** Learn how to build a basic smart contract application.
 - **[Stellar Docs: Deploy to Testnet](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-to-testnet):** Deploy your smart contract to the Stellar testnet.
-- **[Hello World Dapp ](https://github.com/Julian-dev28/consensus-hackathon-c2defi/tree/main/examples/hello-world/hw-dapp):** A basic "Hello World" dapp that demonstrates how to build a simple smart contract application.
+- **[Hello World Dapp](./examples/1-hello-world/hw-dapp):** A basic "Hello World" dapp that demonstrates how to build a simple smart contract application.
 
 ### Expanding the Application: Depositors and Balances
 
 - **[Stellar Docs: Storing Data](https://developers.stellar.org/docs/smart-contracts/getting-started/storing-data):** Learn how to store data on the Stellar network.
 - **[Stellar Docs: Deploy Incrementor](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-increment-contract):** Deploy an incrementor contract to the Stellar testnet.
-- **[Depositors and Balances Dapp](https://bunjsdemo.com):** An example application that shows how to create a basic dapp with depositors and balances.
+- **[Depositors and Balances Dapp](./examples/2-deposits-and-balances/incrementor-dapp):** An example application that shows how to create a basic dapp with depositors and balances.
 
 ### Application Use Cases: Liquidity Pools and Public Goods
 
-- **[Liquidity Pool Dapp](./examples/liquidity-pool/lp-dapp):** Learn how to create a simple liquidity pool.
-- **[Public Goods Dapp](./examples/public-goods/public-goods-dapp/s):** Learn how to create a simple crowdfund for public goods.
+- **[Public Goods Dapp](./examples/3-public-goods/public-goods-dapp):** Learn how to create a simple crowdfund for public goods.
+- **[Liquidity Pool Dapp](./examples/4-liquidity-pool/lp-dapp):** Learn how to create a simple liquidity pool.
 
 ### Conclusion and Q&A
 
-- **TODO: CREATE A COMPONENT EXAMPLE SUBMISSION:** [COMPONENT]()
 - **[Stellar Developer Documentation](https://developers.stellar.org/):** Official documentation for Stellar developers.
 
 ## Stellar Track Overview

@@ -43,3 +43,7 @@ const bindings =
   await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm --id ${contractId_1} --network testnet --output-dir ./.soroban/hello-world --overwrite`.text();
 bindings;
 console.log("generated bindings");
+
+const dependencies = await $`bun install`.text();
+dependencies;
+console.log("installed dependencies");

@@ -1,3 +1,5 @@
+# Introduction to Rust and the Development Environment
+
 <head>
 Install and configure Rust to deploy smart contracts.
   <meta charSet="utf-8" />

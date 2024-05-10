@@ -1,5 +1,7 @@
 # Introduction to Rust and the Development Environment
 
+TODO: ADD QR CODE FOR REPO
+
 <head>
 Install and configure Rust to deploy smart contracts.
   <meta charSet="utf-8" />

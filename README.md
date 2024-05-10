@@ -37,9 +37,10 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 - **[Public Goods Dapp](./examples/3-public-goods/public-goods-dapp):** Learn how to create a simple crowdfund for public goods.
 - **[Liquidity Pool Dapp](./examples/4-liquidity-pool/lp-dapp):** Learn how to create a simple liquidity pool.
 
-### Conclusion and Q&A
+### Conclusion
 
 - **[Stellar Developer Documentation](https://developers.stellar.org/):** Official documentation for Stellar developers.
+- ** [Data Types](./examples/6-data-types/data-types):** An example repository that demonstrates how to use different data types in Stellar smart contracts.
 
 ## Stellar Track Overview
 

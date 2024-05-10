@@ -16,6 +16,8 @@ The examples are organized into the following directories:
 
 - **[beans-merchant-app](./5-beans-merchant-app):** An example application that demonstrates how to build a merchant app for a DeFi application.
 
+- **[data-types](./6-data-types):** An repository that demonstrates how to use different data types in Stellar smart contracts.
+
 <!-- - **[proposal-and-design](./proposal-and-design):** An example application that demonstrates how to build a proposal and design mock-up for a DeFi application.
 
 - **[component-example](./component-example):** An example application that shows how to create a component for a DeFi application. -->

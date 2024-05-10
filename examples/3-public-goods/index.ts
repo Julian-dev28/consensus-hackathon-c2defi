@@ -23,23 +23,67 @@ await $`soroban keys add owner --secret-key`.env({
 await $`soroban contract build`;
 console.log("built contracts");
 
-const contractId_1 = (
-  await $`soroban contract deploy --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm --network testnet --source owner`.text()
+const crowdfund_contractId = (
+  await $`soroban contract deploy --wasm ./crowdfund/target/wasm32-unknown-unknown/release/soroban_crowdfund_contract.wasm --network testnet --source owner`.text()
+).replace(/\W/g, "");
+
+const token_contractId = (
+  await $`soroban contract deploy --wasm ./crowdfund/target/wasm32-unknown-unknown/release/abundance_token.wasm --network testnet --source owner`.text()
 ).replace(/\W/g, "");
 
 console.log("deployed contracts");
 
-if (!contractId_1) throw new Error("Contracts not deployed");
+if (!crowdfund_contractId && !token_contractId)
+  throw new Error("Contracts not deployed");
 
 let file = ``;
-file += `CONTRACT_ID_1=${contractId_1}\n`;
+file += `CROWDFUND_CONTRACT_ID=${crowdfund_contractId}\n`;
+file += `TOKEN_CONTRACT_ID=${token_contractId}\n`;
 
 file += `SECRET=${secret}`;
 
 await Bun.write(".env.local", file);
-console.log("✅");
 
-const bindings =
-  await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm --id ${contractId_1} --network testnet --output-dir ./.soroban/incrementor-contract --overwrite`.text();
-bindings;
+console.log("initializing contracts");
+
+const initialize_token = await $`soroban contract invoke \
+  --source ${secret} \
+  --network testnet \
+  --id ${token_contractId} \
+  -- \
+  initialize \
+  --symbol ABND \
+  --decimal 7 \
+  --name abundance \
+  --admin owner \
+`.text();
+
+let deadline = Math.floor(Date.now() / 1000) + 86400;
+
+const initialize_crowdfund = await $`soroban contract invoke \
+  --source ${secret} \
+  --network testnet \
+  --id ${crowdfund_contractId} \
+  -- \
+  initialize \
+  --recipient owner \
+  --deadline ${deadline} \
+  --target_amount "10000000000" \
+  --token ${token_contractId}
+`.text();
+
+initialize_token;
+initialize_crowdfund;
+
+console.log("initialized contracts");
+
+const crowdfund_bindings =
+  await $`soroban contract bindings typescript --wasm ./crowdfund/target/wasm32-unknown-unknown/release/soroban_crowdfund_contract.wasm --id ${crowdfund_contractId} --network testnet --output-dir ./.soroban/crowdfund-contract --overwrite`.text();
+
+const token_bindings =
+  await $`soroban contract bindings typescript --wasm ./crowdfund/target/wasm32-unknown-unknown/release/abundance_token.wasm --id ${token_contractId} --network testnet --output-dir ./.soroban/token-contract --overwrite`.text();
+
+crowdfund_bindings;
+token_bindings;
 console.log("generated bindings");
+console.log("✅");

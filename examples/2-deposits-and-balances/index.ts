@@ -23,16 +23,16 @@ await $`soroban keys add owner --secret-key`.env({
 await $`soroban contract build`;
 console.log("built contracts");
 
-const contractId_1 = (
+const incrementor_contractId = (
   await $`soroban contract deploy --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm --network testnet --source owner`.text()
 ).replace(/\W/g, "");
 
 console.log("deployed contracts");
 
-if (!contractId_1) throw new Error("Contracts not deployed");
+if (!incrementor_contractId) throw new Error("Contracts not deployed");
 
 let file = ``;
-file += `CONTRACT_ID_1=${contractId_1}\n`;
+file += `INCREMENTOR_CONTRACT_ID=${incrementor_contractId}\n`;
 
 file += `SECRET=${secret}`;
 
@@ -40,6 +40,6 @@ await Bun.write(".env.local", file);
 console.log("✅");
 
 const bindings =
-  await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm --id ${contractId_1} --network testnet --output-dir ./.soroban/incrementor-contract --overwrite`.text();
+  await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm --id ${incrementor_contractId} --network testnet --output-dir ./.soroban/incrementor-contract --overwrite`.text();
 bindings;
 console.log("generated bindings");

@@ -8,7 +8,7 @@ import {
   signTransaction,
 } from "@stellar/freighter-api";
 import { Keypair } from "stellar-sdk"; // Assuming Keypair is what you use from stellar-sdk
-import { client } from "../../shared/contracts"; // Ensure client has the correct methods
+import { client } from "../shared/contracts"; // Ensure client has the correct methods
 
 // Ensuring that document content is fully loaded before running scripts
 document.addEventListener("DOMContentLoaded", async () => {

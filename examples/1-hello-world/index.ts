@@ -23,16 +23,16 @@ await $`soroban keys add owner --secret-key`.env({
 await $`soroban contract build`;
 console.log("built contracts");
 
-const contractId_1 = (
+const hello_world_contractId = (
   await $`soroban contract deploy --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm --network testnet --source owner`.text()
 ).replace(/\W/g, "");
 
 console.log("deployed contracts");
 
-if (!contractId_1) throw new Error("Contracts not deployed");
+if (!hello_world_contractId) throw new Error("Contracts not deployed");
 
 let file = ``;
-file += `CONTRACT_ID_1=${contractId_1}\n`;
+file += `HELLO_WORLD_CONTRACT_ID=${hello_world_contractId}\n`;
 
 file += `SECRET=${secret}`;
 
@@ -40,7 +40,7 @@ await Bun.write(".env.local", file);
 console.log("✅");
 
 const bindings =
-  await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm --id ${contractId_1} --network testnet --output-dir ./.soroban/hello-world --overwrite`.text();
+  await $`soroban contract bindings typescript --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm --id ${hello_world_contractId} --network testnet --output-dir ./.soroban/hello-world --overwrite`.text();
 bindings;
 console.log("generated bindings");
 

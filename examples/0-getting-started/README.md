@@ -20,6 +20,9 @@ To build and develop contracts you need only a couple prerequisites:
 - A [Rust] toolchain
 - An editor that supports Rust
 - [Soroban CLI]
+- [Rust Extension Pack](https://marketplace.visualstudio.com/items?itemName=swellaby.rust-pack)
+- [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+- [Node.js](https://github.com/nvm-sh/nvm) (for running dapps)
 
 ## Install Rust
 

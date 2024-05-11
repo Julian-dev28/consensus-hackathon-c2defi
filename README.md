@@ -9,7 +9,7 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 ### Workshop
 
 - **Introduction to Rust and the Development Environment**
-- **Building a Basic "Hello World" dapp**
+- **Building a Basic "Incrementor"**
 - **Expanding the Application: Depositors and Balances**
 - **Application Use Cases: Public Goods and Liquidity Pools**
 - **Conclusion**
@@ -20,16 +20,13 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 
 - **[Stellar Docs: Setup](https://developers.stellar.org/docs/smart-contracts/getting-started/setup):** Dive into smart contract development with our "Getting Started" tutorial.
 
-### Building a Basic "Hello World" dapp
-
-- **[Stellar Docs: Hello World](https://developers.stellar.org/docs/smart-contracts/getting-started/hello-world):** Learn how to build a basic smart contract application.
-- **[Stellar Docs: Deploy to Testnet](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-to-testnet):** Deploy your smart contract to the Stellar testnet.
-- **[Hello World Dapp](./examples/1-hello-world/hw-dapp):** A basic "Hello World" dapp that demonstrates how to build a simple smart contract application.
-
-### Expanding the Application: Depositors and Balances
+### Building a Basic "Incrementor"
 
 - **[Stellar Docs: Storing Data](https://developers.stellar.org/docs/smart-contracts/getting-started/storing-data):** Learn how to store data on the Stellar network.
 - **[Stellar Docs: Deploy Incrementor](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-increment-contract):** Deploy an incrementor contract to the Stellar testnet.
+
+### Expanding the Application: Depositors and Balances
+
 - **[Depositors and Balances Dapp](./examples/2-deposits-and-balances/incrementor-dapp):** An example application that shows how to create a basic dapp with depositors and balances.
 
 ### Application Use Cases: Liquidity Pools and Public Goods

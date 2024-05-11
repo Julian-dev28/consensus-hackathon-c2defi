@@ -43,9 +43,14 @@ impl IncrementContract {
 
     // Add the deposit and balances contract functions to the increment contract
 
+    // Initialize the contract
+    pub fn initialize(env: Env, admin: Address) {
+        dnb::DepositandBalanceContract::initialize(env.clone(), admin);
+    }
+
     // Start a campaign
-    pub fn start_campaign(env: Env) {
-        dnb::DepositandBalanceContract::start_campaign(env.clone());
+    pub fn start_campaign(env: Env, admin: Address) {
+        dnb::DepositandBalanceContract::start_campaign(env.clone(), admin);
     }
 
     // Get the status of the campaign
@@ -69,8 +74,8 @@ impl IncrementContract {
     }
 
     // Stop the campaign
-    pub fn stop_campaign(env: Env) {
-        dnb::DepositandBalanceContract::stop_campaign(env.clone());
+    pub fn stop_campaign(env: Env, admin: Address) {
+        dnb::DepositandBalanceContract::stop_campaign(env.clone(), admin);
     }
 
     // Clear a contributor

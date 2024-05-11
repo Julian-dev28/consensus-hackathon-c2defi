@@ -9,6 +9,7 @@ pub enum DataKey {
     Contributor(Address),
     Contributors,
     Status,
+    Admin,
 }
 
 // Define the enum to represent different states
@@ -19,11 +20,23 @@ pub enum Status {
     Inactive = 1,
 }
 
+// The `#[contract]` attribute marks a type as being the type that contract functions are attached for.
 #[contract]
 pub struct DepositandBalanceContract;
 
+// The `#[contractimpl]` exports the publicly accessible functions to the Soroban environment.
 #[contractimpl]
 impl DepositandBalanceContract {
+    /// initialize the contract with the admin address
+    ///
+    /// # Arguments
+    ///
+    /// - `env` - The execution environment of the contract.
+    /// - `admin` - The address of the admin.
+    pub fn initialize(env: Env, admin: Address) {
+        env.storage().instance().set(&DataKey::Admin, &admin);
+    }
+
     /// Records a contribution made by a contributor if the campaign is active.
     ///
     /// # Arguments
@@ -31,10 +44,6 @@ impl DepositandBalanceContract {
     /// - `env` - The execution environment of the contract.
     /// - `contributor` - The address of the contributor making the contribution.
     /// - `amount` - The amount of contribution in tokens.
-    ///
-    /// # Effects
-    ///
-    /// Records the contribution in the contract's storage and potentially adds the contributor to the list of contributors if not already included.
     pub fn contribute(env: Env, contributor: Address, amount: u64) {
         contributor.require_auth();
         if Self::get_campaign_status(env.clone()) != Status::Active {
@@ -47,16 +56,21 @@ impl DepositandBalanceContract {
             .instance()
             .set(&DataKey::Contributor(contributor), &amount);
     }
+
     /// Activates the campaign.
     ///
     /// # Arguments
     ///
     /// - `env` - The execution environment of the contract.
-    ///
-    /// # Panics
-    ///
-    /// Panics if the contract is already active.
-    pub fn start_campaign(env: Env) {
+    pub fn start_campaign(env: Env, admin: Address) {
+        admin.require_auth();
+        assert_eq!(
+            admin,
+            env.storage()
+                .instance()
+                .get(&DataKey::Admin)
+                .unwrap_or(env.current_contract_address())
+        );
         if Self::get_campaign_status(env.clone()) == Status::Active {
             panic!("contract is already active");
         }
@@ -68,11 +82,15 @@ impl DepositandBalanceContract {
     /// # Arguments
     ///
     /// - `env` - The execution environment of the contract.
-    ///
-    /// # Panics
-    ///
-    /// Panics if the contract is already inactive.
-    pub fn stop_campaign(env: Env) {
+    pub fn stop_campaign(env: Env, admin: Address) {
+        admin.require_auth();
+        assert_eq!(
+            admin,
+            env.storage()
+                .instance()
+                .get(&DataKey::Admin)
+                .unwrap_or(env.current_contract_address())
+        );
         if Self::get_campaign_status(env.clone()) == Status::Inactive {
             panic!("contract is already inactive");
         }

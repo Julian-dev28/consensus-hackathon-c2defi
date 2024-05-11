@@ -27,13 +27,16 @@ await $`soroban keys add owner --secret-key`.env({
   SOROBAN_SECRET_KEY: secret,
 });
 
+// Index.ts continued
 // Build the smart contract specified in the Soroban environment.
 await $`soroban contract build`;
 console.log("built contracts");
 
 // Deploy the smart contract to the Stellar test network using the Soroban CLI.
 const hello_world_contractId = (
-  await $`soroban contract deploy --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm --network testnet --source owner`.text()
+  await $`soroban contract deploy \
+   --wasm target/wasm32-unknown-unknown/release/soroban_hello_world_contract.wasm \
+   --network testnet --source owner`.text()
 ).replace(/\W/g, "");
 console.log("deployed contracts");
 

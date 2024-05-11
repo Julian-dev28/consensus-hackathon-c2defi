@@ -5,8 +5,8 @@
 use soroban_sdk::{contract, contractimpl, symbol_short, vec, Env, Symbol, Vec};
 
 // Symbols are similar to strings but are optimized for low-resource environments like blockchain.
-// The `symbol_short!()` macro is used to create a symbol from a string literal.
-// Vector is a collection type that can store multiple elements of the same type and is comparable to an Array in other languages.
+// Vec(Vector) is a collection type that can store multiple elements of the same type and is comparable to an Array in other languages.
+
 // The `#[contract]` attribute marks a type as being the type that contract functions are attached for.
 #[contract]
 pub struct HelloContract;
@@ -25,7 +25,8 @@ impl HelloContract {
     ///
     /// - A vector of symbols containing the greeting and the target of the greeting.
     pub fn hello(env: Env, to: Symbol) -> Vec<Symbol> {
-        // Constructs and returns a vector containing the greeting "Hello" followed by the recipient's symbol.
+        // Constructs and returns a vector containing the greeting "Hello" followed by the to value.
+        // The `vec!` and `symbol_short!` macros are used to create the vector and symbol respectively.
         vec![&env, symbol_short!("Hello"), to]
     }
 }

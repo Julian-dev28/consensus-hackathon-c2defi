@@ -1,6 +1,7 @@
 #![cfg(test)]
 
 use super::{IncrementContract, IncrementContractClient};
+
 use soroban_sdk::{
     testutils::{Address, Logs},
     Env,
@@ -9,7 +10,7 @@ use soroban_sdk::{
 extern crate std;
 
 #[test]
-fn test() {
+fn increment() {
     let env = Env::default();
     let contract_id = env.register_contract(None, IncrementContract);
     let client = IncrementContractClient::new(&env, &contract_id);
@@ -21,7 +22,7 @@ fn test() {
     std::println!("{}", env.logs().all().join("\n"));
 }
 #[test]
-fn test_contribute() {
+fn contribute() {
     let env = Env::default();
     env.mock_all_auths();
     let contract_id = env.register_contract(None, IncrementContract);

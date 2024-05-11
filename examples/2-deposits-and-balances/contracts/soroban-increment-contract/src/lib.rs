@@ -1,144 +1,80 @@
+// The standard library is disabled to optimize the contract for low-resource environments like blockchain.
 #![no_std]
-use soroban_sdk::{
-    auth, contract, contractimpl, contracttype, log, symbol_short, vec, Address, Env, Symbol, Vec,
-};
+use soroban_sdk::{contract, contractimpl, log, symbol_short, Address, Env, Symbol};
 
-#[derive(Clone)]
-#[contracttype]
-pub enum DataKey {
-    Contributor(Address),
-    Contributors,
-    Status,
-}
+// unit tests for the contract.
+mod dnb;
+mod test;
 
-// Define the enum to represent different states
-#[derive(Clone, Copy, PartialEq, Eq)]
-#[contracttype]
-pub enum Status {
-    Active = 0,
-    Inactive = 1,
-}
-
+/// Symbol used as a key for accessing the counter in the contract's storage.
+/// This counter is used to track a specific value, such as the number of actions performed.
 const COUNTER: Symbol = symbol_short!("COUNTER");
 
+// The `#[contract]` attribute marks a type as being the type that contract functions are attached for.
 #[contract]
 pub struct IncrementContract;
 
+// The `#[contractimpl]` exports the publicly accessible functions to the Soroban environment.
+
 #[contractimpl]
 impl IncrementContract {
-    /// Increment increments an internal counter, and returns the value.
+    /// Increments an internal counter and returns the new count.
+    ///
+    /// # Arguments
+    ///
+    /// - `env` - The execution environment of the contract, providing access to blockchain storage and utilities.
+    ///
+    /// # Returns
+    ///
+    /// - The new value of the counter after incrementation.
     pub fn increment(env: Env) -> u32 {
-        // Get the current count.
-        let mut count: u32 = env.storage().instance().get(&COUNTER).unwrap_or(0); // If no value set, assume 0.
+        let mut count: u32 = env.storage().instance().get(&COUNTER).unwrap_or(0);
         log!(&env, "count: {}", count);
-
-        // Increment the count.
         count += 1;
-
-        // Save the count.
         env.storage().instance().set(&COUNTER, &count);
-
-        // The contract instance will be bumped to have a lifetime of at least 100 ledgers if the current expiration lifetime at most 50.
-        // If the lifetime is already more than 100 ledgers, this is a no-op. Otherwise,
-        // the lifetime is extended to 100 ledgers. This lifetime bump includes the contract
-        // instance itself and all entries in storage().instance(), i.e, COUNTER.
         env.storage().instance().extend_ttl(50, 100);
-
-        // Return the count to the caller.
         count
     }
 
-    pub fn contribute(env: Env, contributor: Address, amount: u64) {
-        contributor.require_auth();
-        // Check if the campaign is active.
-        if Self::get_campaign_status(env.clone()) != Status::Active {
-            panic!("contract is not active");
-        }
-
-        if !Self::is_contributor(env.clone(), contributor.clone()) {
-            Self::push_contributor(env.clone(), contributor.clone());
-        }
-
-        // Record the contribution.
-        env.storage()
-            .instance()
-            .set(&DataKey::Contributor(contributor), &amount);
-    }
-
-    pub fn start_campaign(env: Env) {
-        // Check if the contract is already active.
-        if Self::get_campaign_status(env.clone()) == Status::Active {
-            panic!("contract is already active");
-        }
-
-        // Set the contract status to active.
-        Self::set_status(env.clone(), Status::Active);
-    }
-
-    pub fn stop_campaign(env: Env) {
-        // Check if the contract is already inactive.
-        if Self::get_campaign_status(env.clone()) == Status::Inactive {
-            panic!("contract is already inactive");
-        }
-
-        // Set the contract status to inactive.
-        Self::set_status(env.clone(), Status::Inactive);
-    }
-
+    // Utility functions to get and set data in storage.
     pub fn get_count(env: Env) -> u32 {
         env.storage().instance().get(&COUNTER).unwrap_or(0)
     }
 
-    pub fn set_status(env: Env, status: Status) {
-        env.storage().instance().set(&DataKey::Status, &status);
+    // Add the deposit and balances contract functions to the increment contract
+
+    // Start a campaign
+    pub fn start_campaign(env: Env) {
+        dnb::DepositandBalanceContract::start_campaign(env.clone());
     }
 
-    pub fn get_campaign_status(env: Env) -> Status {
-        env.storage()
-            .instance()
-            .get(&DataKey::Status)
-            .unwrap_or(Status::Inactive)
+    // Get the status of the campaign
+    pub fn get_campaign_status(env: Env) -> dnb::Status {
+        dnb::DepositandBalanceContract::get_campaign_status(env.clone())
     }
 
-    pub fn is_contributor(env: Env, contributor: Address) -> bool {
-        env.storage()
-            .instance()
-            .get(&DataKey::Contributor(contributor))
-            .unwrap_or(0)
-            > 0
+    // Contribute to the campaign
+    pub fn contribute(env: Env, contributor: Address, amount: u64) {
+        dnb::DepositandBalanceContract::contribute(env.clone(), contributor, amount);
     }
 
-    pub fn clear_contributor(env: Env, contributor: Address) {
-        contributor.require_auth();
-        env.storage()
-            .instance()
-            .remove(&DataKey::Contributor(contributor));
-    }
-
+    // Get the contribution of a contributor
     pub fn get_contribution(env: Env, contributor: Address) -> u64 {
-        env.storage()
-            .instance()
-            .get(&DataKey::Contributor(contributor))
-            .unwrap_or(0)
+        dnb::DepositandBalanceContract::get_contribution(env.clone(), contributor)
     }
 
-    pub fn get_contributors(env: Env) -> Vec<Address> {
-        env.storage()
-            .instance()
-            .get(&DataKey::Contributors)
-            .unwrap_or(vec![&env, env.current_contract_address()])
+    // Get the total contributions
+    pub fn get_total_contributions(env: Env) -> u64 {
+        dnb::DepositandBalanceContract::get_total_contributions(env.clone())
     }
 
-    fn push_contributor(env: Env, contributor: Address) {
-        let mut contributors = env
-            .storage()
-            .instance()
-            .get(&DataKey::Contributors)
-            .unwrap_or(vec![&env, contributor.clone()]);
-        contributors.push_back(contributor);
-        env.storage()
-            .instance()
-            .set(&DataKey::Contributors, &contributors);
+    // Stop the campaign
+    pub fn stop_campaign(env: Env) {
+        dnb::DepositandBalanceContract::stop_campaign(env.clone());
+    }
+
+    // Clear a contributor
+    pub fn clear_contributor(env: Env, contributor: Address) {
+        dnb::DepositandBalanceContract::clear_contributor(env.clone(), contributor);
     }
 }
-mod test;

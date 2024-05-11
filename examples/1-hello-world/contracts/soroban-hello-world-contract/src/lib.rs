@@ -1,10 +1,13 @@
 // The standard library is disabled to optimize the contract for low-resource environments like blockchain.
 #![no_std]
 
+// Unit tests for the contract.
+mod test;
+
 // Importing essential modules and macros from the Soroban SDK for contract development.
 use soroban_sdk::{contract, contractimpl, symbol_short, vec, Env, Symbol, Vec};
 
-// Symbols are similar to strings but are optimized for low-resource environments like blockchain.
+// Symbols are similar to strings. They are used to represent data in the Soroban environment.
 // Vec(Vector) is a collection type that can store multiple elements of the same type and is comparable to an Array in other languages.
 
 // The `#[contract]` attribute marks a type as being the type that contract functions are attached for.
@@ -30,6 +33,3 @@ impl HelloContract {
         vec![&env, symbol_short!("Hello"), to]
     }
 }
-
-// Unit tests for the contract implementation.
-mod test;

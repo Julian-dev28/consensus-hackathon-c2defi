@@ -2,8 +2,10 @@
 #![no_std]
 use soroban_sdk::{contract, contractimpl, log, symbol_short, Address, Env, Symbol};
 
-// unit tests for the contract.
+// import Deposits and Balances module.
 mod dnb;
+
+// unit tests for the contract.
 mod test;
 
 /// Symbol used as a key for accessing the counter in the contract's storage.
@@ -15,7 +17,6 @@ const COUNTER: Symbol = symbol_short!("COUNTER");
 pub struct IncrementContract;
 
 // The `#[contractimpl]` exports the publicly accessible functions to the Soroban environment.
-
 #[contractimpl]
 impl IncrementContract {
     /// Increments an internal counter and returns the new count.

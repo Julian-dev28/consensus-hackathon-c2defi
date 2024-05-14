@@ -45,42 +45,42 @@ impl IncrementContract {
     // Add the deposit and balances contract functions to the increment contract
 
     // Initialize the contract
-    pub fn initialize(env: Env, admin: Address) {
+    pub fn initialize_campaign(env: Env, admin: Address) {
         dnb::DepositandBalanceContract::initialize(env.clone(), admin);
     }
 
     // Start a campaign
     pub fn start_campaign(env: Env, admin: Address) {
-        dnb::DepositandBalanceContract::start_campaign(env.clone(), admin);
+        dnb::DepositandBalanceContract::start(env.clone(), admin);
     }
 
     // Get the status of the campaign
-    pub fn get_campaign_status(env: Env) -> dnb::Status {
+    pub fn check_campaign_status(env: Env) -> dnb::Status {
         dnb::DepositandBalanceContract::get_campaign_status(env.clone())
     }
 
     // Contribute to the campaign
     pub fn contribute(env: Env, contributor: Address, amount: u64) {
-        dnb::DepositandBalanceContract::contribute(env.clone(), contributor, amount);
+        dnb::DepositandBalanceContract::deposit(env.clone(), contributor, amount);
     }
 
     // Get the contribution of a contributor
-    pub fn get_contribution(env: Env, contributor: Address) -> u64 {
+    pub fn get_user_contribution(env: Env, contributor: Address) -> u64 {
         dnb::DepositandBalanceContract::get_contribution(env.clone(), contributor)
     }
 
     // Get the total contributions
-    pub fn get_total_contributions(env: Env) -> u64 {
+    pub fn get_all_contributions(env: Env) -> u64 {
         dnb::DepositandBalanceContract::get_total_contributions(env.clone())
     }
 
     // Stop the campaign
     pub fn stop_campaign(env: Env, admin: Address) {
-        dnb::DepositandBalanceContract::stop_campaign(env.clone(), admin);
+        dnb::DepositandBalanceContract::stop(env.clone(), admin);
     }
 
     // Clear a contributor
-    pub fn clear_contributor(env: Env, contributor: Address) {
+    pub fn delete_contribution_record(env: Env, contributor: Address) {
         dnb::DepositandBalanceContract::clear_contributor(env.clone(), contributor);
     }
 }

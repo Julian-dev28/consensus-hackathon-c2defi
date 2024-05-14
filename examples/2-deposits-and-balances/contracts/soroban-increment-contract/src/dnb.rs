@@ -37,32 +37,12 @@ impl DepositandBalanceContract {
         env.storage().instance().set(&DataKey::Admin, &admin);
     }
 
-    /// Records a contribution made by a contributor if the campaign is active.
-    ///
-    /// # Arguments
-    ///
-    /// - `env` - The execution environment of the contract.
-    /// - `contributor` - The address of the contributor making the contribution.
-    /// - `amount` - The amount of contribution in tokens.
-    pub fn contribute(env: Env, contributor: Address, amount: u64) {
-        contributor.require_auth();
-        if Self::get_campaign_status(env.clone()) != Status::Active {
-            panic!("contract is not active");
-        }
-        if !Self::is_contributor(env.clone(), contributor.clone()) {
-            Self::push_contributor(env.clone(), contributor.clone());
-        }
-        env.storage()
-            .instance()
-            .set(&DataKey::Contributor(contributor), &amount);
-    }
-
     /// Activates the campaign.
     ///
     /// # Arguments
     ///
     /// - `env` - The execution environment of the contract.
-    pub fn start_campaign(env: Env, admin: Address) {
+    pub fn start(env: Env, admin: Address) {
         admin.require_auth();
         assert_eq!(
             admin,
@@ -82,7 +62,7 @@ impl DepositandBalanceContract {
     /// # Arguments
     ///
     /// - `env` - The execution environment of the contract.
-    pub fn stop_campaign(env: Env, admin: Address) {
+    pub fn stop(env: Env, admin: Address) {
         admin.require_auth();
         assert_eq!(
             admin,
@@ -95,6 +75,26 @@ impl DepositandBalanceContract {
             panic!("contract is already inactive");
         }
         Self::set_status(env.clone(), Status::Inactive);
+    }
+
+    /// Records a contribution made by a contributor if the campaign is active.
+    ///
+    /// # Arguments
+    ///
+    /// - `env` - The execution environment of the contract.
+    /// - `contributor` - The address of the contributor making the contribution.
+    /// - `amount` - The amount of contribution in tokens.
+    pub fn deposit(env: Env, contributor: Address, amount: u64) {
+        contributor.require_auth();
+        if Self::get_campaign_status(env.clone()) != Status::Active {
+            panic!("contract is not active");
+        }
+        if !Self::is_contributor(env.clone(), contributor.clone()) {
+            Self::push_contributor(env.clone(), contributor.clone());
+        }
+        env.storage()
+            .instance()
+            .set(&DataKey::Contributor(contributor), &amount);
     }
 
     // Utility functions to get and set data in storage.

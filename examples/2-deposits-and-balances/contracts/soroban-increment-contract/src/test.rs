@@ -12,6 +12,7 @@ use soroban_sdk::{
     Env,
 };
 
+// Import the standard library to use the println macro.
 extern crate std;
 
 #[test]
@@ -53,11 +54,11 @@ fn contribute() {
     let contributor = <soroban_sdk::Address as Address>::generate(&env);
 
     // Initialize the contract with the admin.
-    client.initialize(&admin);
+    client.initialize_campaign(&admin);
     // Start a campaign with the admin.
     client.start_campaign(&admin.clone());
     // Contribute to the campaign with the contributor.
     client.contribute(&contributor, &100);
     // Check the contribution of the contributor.
-    assert_eq!(client.get_contribution(&contributor), 100);
+    assert_eq!(client.get_user_contribution(&contributor), 100);
 }

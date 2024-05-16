@@ -1,6 +1,5 @@
 {
   "name": "incrementor-dapp",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -10,11 +9,13 @@
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "vite": "^5.2.0",
+    "@types/bun": "latest"
   },
   "dependencies": {
     "@stellar/freighter-api": "^2.0.0",
-    "incrementor": "file:../.soroban/incrementor",
+    "incrementor-contract": "file:../.soroban/incrementor-contract",
     "stellar-sdk": "^12.0.0-rc.2"
-  }
+  },
+  "module": "index.ts"
 }

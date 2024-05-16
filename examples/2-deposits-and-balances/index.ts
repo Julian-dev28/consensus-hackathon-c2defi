@@ -51,7 +51,7 @@ console.log("✅");
 const bindings = await $`soroban contract bindings typescript \
   --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm \
   --id ${incrementor_contractId} \
-  -network testnet \
+  --network testnet \
   --output-dir ./.soroban/incrementor-contract \
   --overwrite`.text();
 bindings;

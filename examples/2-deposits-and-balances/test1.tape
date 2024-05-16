@@ -8,13 +8,15 @@ Set FontSize 24
 Set Width 1200
 Set Height 600
 
-Type "soroban contract invoke \
+
+soroban contract
+Type soroban contract invoke \
 --id CBBY3S6TITYPEYAJIYQREW6RGOE652CP2C5HDJ2G64F76QHCMGU6Y6CW \
---soure alice \
+--source alice \
 --network testnet \
 -- \
 increment
-" 
+ 
 
 Enter
 
@@ -22,18 +24,22 @@ Sleep 3s
 
 Type "soroban contract invoke \
 --id CBBY3S6TITYPEYAJIYQREW6RGOE652CP2C5HDJ2G64F76QHCMGU6Y6CW \
---soure alice \
+--source alice \
 --network testnet \
 -- \
 increment
 " 
+
+Enter
 Sleep 3s
 
 Type "soroban contract invoke \
 --id CBBY3S6TITYPEYAJIYQREW6RGOE652CP2C5HDJ2G64F76QHCMGU6Y6CW \
---soure alice \
+--source alice \
 --network testnet \
 -- \
 increment
 " 
+
+Enter
 Sleep 6s

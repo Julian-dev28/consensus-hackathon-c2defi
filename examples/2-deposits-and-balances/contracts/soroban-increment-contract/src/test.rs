@@ -1,19 +1,23 @@
 // CFG is used to tell the compiler to only compile the module when running tests.
 #![cfg(test)]
+extern crate std;
 
 // Import the contract and client
 // super is used to access the parent module.
-use super::{IncrementContract, IncrementContractClient};
+use super::{token, IncrementContract, IncrementContractClient};
 
 // Import the test utilities.
 // The testutils module is used to create a mock environment for testing.
-use soroban_sdk::{
-    testutils::{Address, Logs},
-    Env,
-};
+use soroban_sdk::{testutils::Address as _, Address, BytesN, Env};
 
-// Import the standard library to use the println macro.
-extern crate std;
+fn create_token_contract<'a>(e: &Env, admin: &Address) -> token::Client<'a> {
+    token::Client::new(e, &e.register_stellar_asset_contract(admin.clone()))
+}
+
+fn install_token_wasm(env: &Env) -> BytesN<32> {
+    soroban_sdk::contractimport!(file = "./token/soroban_token_contract.wasm");
+    env.deployer().upload_contract_wasm(WASM)
+}
 
 #[test]
 fn increment() {
@@ -21,18 +25,22 @@ fn increment() {
     // The environment is used to simulate the blockchain and the contract execution.
     let env = Env::default();
 
+    // Mock all authorizations.
+    // This is used to mock the authorization of signers for executing transactions.
+    env.mock_all_auths();
+
+    // Create a new address for the user.
+    let user = Address::generate(&env);
+
     // Register the contract.
     let contract_id = env.register_contract(None, IncrementContract);
     // Create a client for the contract.
     let client = IncrementContractClient::new(&env, &contract_id);
 
     // Increment the counter and check that the COUNTER value is updated.
-    assert_eq!(client.increment(), 1);
-    assert_eq!(client.increment(), 2);
-    assert_eq!(client.increment(), 3);
-
-    // Print the logs.
-    std::println!("{}", env.logs().all().join("\n"));
+    assert_eq!(client.increment(&user), 1);
+    assert_eq!(client.increment(&user), 2);
+    assert_eq!(client.increment(&user), 3);
 }
 #[test]
 fn contribute() {
@@ -44,21 +52,31 @@ fn contribute() {
     // This is used to mock the authorization of signers for executing transactions.
     env.mock_all_auths();
 
+    // Create a new address for the admin.
+    let admin = Address::generate(&env);
+    // Create a new address for the user.
+    let user = Address::generate(&env);
+
+    // Create a token.
+    let token1 = create_token_contract(&env, &admin);
+
     // Register the contract.
     let contract_id = env.register_contract(None, IncrementContract);
+
     // Create a client for the contract.
     let client = IncrementContractClient::new(&env, &contract_id);
-    // Create a new address for the admin.
-    let admin = <soroban_sdk::Address as Address>::generate(&env);
-    // Create a new address for the contributor.
-    let contributor = <soroban_sdk::Address as Address>::generate(&env);
 
+    // Mint tokens for the user.
+    token1.mint(&user, &1000);
+    assert_eq!(token1.balance(&user), 1000);
     // Initialize the contract with the admin.
-    client.initialize_campaign(&admin);
+    client.initialize_campaign(&admin, &install_token_wasm(&env), &token1.address);
     // Start a campaign with the admin.
     client.start_campaign(&admin.clone());
     // Contribute to the campaign with the contributor.
-    client.contribute(&contributor, &100);
+    client.deposit(&user, &token1.address, &100);
     // Check the contribution of the contributor.
-    assert_eq!(client.get_user_contribution(&contributor), 100);
+    assert_eq!(client.get_contribution(&user), 100);
+    // Check the share token balance of the contributor.
+    assert_eq!(client.get_share_token_balance(&user), 100);
 }

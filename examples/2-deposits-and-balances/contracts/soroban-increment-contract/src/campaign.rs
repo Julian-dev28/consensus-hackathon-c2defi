@@ -6,8 +6,10 @@ use soroban_sdk::{contract, contractimpl, contracttype, vec, Address, Env, Vec};
 #[derive(Clone)]
 #[contracttype]
 pub enum DataKey {
-    Contributor(Address),
+    Contributions(Address),
     Contributors,
+    Token,
+    ShareToken,
     Status,
     Admin,
 }
@@ -22,11 +24,11 @@ pub enum Status {
 
 // The `#[contract]` attribute marks a type as being the type that contract functions are attached for.
 #[contract]
-pub struct DepositandBalanceContract;
+pub struct CampaignContract;
 
 // The `#[contractimpl]` exports the publicly accessible functions to the Soroban environment.
 #[contractimpl]
-impl DepositandBalanceContract {
+impl CampaignContract {
     /// initialize the contract with the admin address
     ///
     /// # Arguments
@@ -77,29 +79,24 @@ impl DepositandBalanceContract {
         Self::set_status(env.clone(), Status::Inactive);
     }
 
-    /// Records a contribution made by a contributor if the campaign is active.
-    ///
-    /// # Arguments
-    ///
-    /// - `env` - The execution environment of the contract.
-    /// - `contributor` - The address of the contributor making the contribution.
-    /// - `amount` - The amount of contribution in tokens.
-    pub fn deposit(env: Env, contributor: Address, amount: u64) {
-        contributor.require_auth();
-        if Self::get_campaign_status(env.clone()) != Status::Active {
-            panic!("contract is not active");
-        }
-        if !Self::is_contributor(env.clone(), contributor.clone()) {
-            Self::push_contributor(env.clone(), contributor.clone());
-        }
-        env.storage()
-            .instance()
-            .set(&DataKey::Contributor(contributor), &amount);
-    }
-
     // Utility functions to get and set data in storage.
     pub fn set_status(env: Env, status: Status) {
         env.storage().instance().set(&DataKey::Status, &status);
+    }
+
+    // Set the ShareToken address
+    pub fn set_share_token(env: Env, share_token: Address) {
+        env.storage()
+            .instance()
+            .set(&DataKey::ShareToken, &share_token);
+    }
+
+    // Get the ShareToken address
+    pub fn get_share_token(env: Env) -> Address {
+        env.storage()
+            .instance()
+            .get(&DataKey::ShareToken)
+            .unwrap_or(env.current_contract_address())
     }
 
     pub fn get_campaign_status(env: Env) -> Status {
@@ -112,7 +109,7 @@ impl DepositandBalanceContract {
     pub fn is_contributor(env: Env, contributor: Address) -> bool {
         env.storage()
             .instance()
-            .get(&DataKey::Contributor(contributor))
+            .get(&DataKey::Contributions(contributor))
             .unwrap_or(0)
             > 0
     }
@@ -121,14 +118,20 @@ impl DepositandBalanceContract {
         contributor.require_auth();
         env.storage()
             .instance()
-            .remove(&DataKey::Contributor(contributor));
+            .remove(&DataKey::Contributions(contributor));
     }
 
-    pub fn get_contribution(env: Env, contributor: Address) -> u64 {
+    pub fn get_contribution(env: Env, contributor: Address) -> i128 {
         env.storage()
             .instance()
-            .get(&DataKey::Contributor(contributor))
+            .get(&DataKey::Contributions(contributor))
             .unwrap_or(0)
+    }
+
+    pub fn set_contributor(env: Env, contributor: Address, amount: i128) {
+        env.storage()
+            .instance()
+            .set(&DataKey::Contributions(contributor), &amount)
     }
 
     pub fn get_contributors(env: Env) -> Vec<Address> {
@@ -138,24 +141,11 @@ impl DepositandBalanceContract {
             .unwrap_or(vec![&env, env.current_contract_address()])
     }
 
-    pub fn get_total_contributions(env: Env) -> u64 {
+    pub fn get_total_contributions(env: Env) -> i128 {
         let contributors = Self::get_contributors(env.clone());
         contributors
             .iter()
             .map(|contributor| Self::get_contribution(env.clone(), contributor.clone()))
             .sum()
-    }
-
-    /// Helper function to add a new contributor to the storage.
-    fn push_contributor(env: Env, contributor: Address) {
-        let mut contributors = env
-            .storage()
-            .instance()
-            .get(&DataKey::Contributors)
-            .unwrap_or(vec![&env, contributor.clone()]);
-        contributors.push_back(contributor);
-        env.storage()
-            .instance()
-            .set(&DataKey::Contributors, &contributors);
     }
 }

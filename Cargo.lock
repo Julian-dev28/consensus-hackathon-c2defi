@@ -3,6 +3,14 @@
 version = 3
 
 [[package]]
+name = "abundance-token"
+version = "0.0.6"
+dependencies = [
+ "soroban-sdk",
+ "soroban-token-sdk",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

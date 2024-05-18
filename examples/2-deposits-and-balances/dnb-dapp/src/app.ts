@@ -42,9 +42,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Call the helloWorld function
-  async function callHelloWorld(to: string): Promise<void> {
+  async function callContribute(
+    contributor: string,
+    amount: bigint
+  ): Promise<void> {
     try {
-      const result = await client.hello({ to });
+      const result = await client.contribute({ contributor, amount });
       console.log(result);
       // Assuming you want to sign the transaction after receiving it
       await signTransaction(result.toString());
@@ -55,11 +58,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const helloBtn = document.getElementById("helloBtn");
   const toInput = document.getElementById("toAddress") as HTMLInputElement;
+  const amountInput = document.getElementById("amount") as HTMLInputElement;
 
   if (helloBtn && toInput) {
     helloBtn.addEventListener("click", () => {
-      if (toInput.value) {
-        callHelloWorld(toInput.value);
+      if (toInput.value && amountInput.value) {
+        callContribute(toInput.value, BigInt(amountInput.value));
       } else {
         console.error("No Stellar address provided.");
       }

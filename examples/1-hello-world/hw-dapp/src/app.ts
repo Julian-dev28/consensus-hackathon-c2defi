@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Call the helloWorld function
   async function callHelloWorld(to: string): Promise<void> {
     try {
-      const result = await client.hello({ to });
+      const result = await client.hello({ to }); // Replace "methodName" with the actual method name
       console.log(result);
       // Assuming you want to sign the transaction after receiving it
       await signTransaction(result.toString());

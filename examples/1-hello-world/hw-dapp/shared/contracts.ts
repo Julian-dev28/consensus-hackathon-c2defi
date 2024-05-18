@@ -7,6 +7,10 @@ export const client = new helloWorld.Client({
   allowHttp: true,
 });
 
+let contractId = "CCT5QUDP562C6DEBFYLHAOXVNFRC2BT2I3ZNDKBV2JUP65VVCWC6LY6G";
+
+// export const contract = new helloWorld.Contract(contractId);
+
 export const server = new SorobanRpc.Server(
   "https://soroban-testnet.stellar.org",
   {

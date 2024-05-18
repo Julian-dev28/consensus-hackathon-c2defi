@@ -2,15 +2,6 @@
 #![no_std]
 use soroban_sdk::{contract, contractimpl, contracttype, vec, Address, BytesN, Env, IntoVal, Vec};
 
-// import Deposits and Balances module.
-mod campaign;
-
-// imports Token module
-mod token;
-
-// unit tests for the contract.
-mod test;
-
 // The DataKey enum is used to represent state variables stored in the contract's storage.
 // This counter is used to track a specific value, such as the number of actions performed.
 #[derive(Clone)]
@@ -196,3 +187,12 @@ impl IncrementContract {
         token::Client::new(&env, &share_token).balance(&user)
     }
 }
+
+// import Deposits and Balances module.
+mod campaign;
+
+// imports Token module
+mod token;
+
+// unit tests for the contract.
+mod test;

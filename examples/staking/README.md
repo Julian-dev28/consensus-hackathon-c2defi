@@ -13,7 +13,7 @@ bun run setup
 To run the dapp, run the following command:
 
 ```bash
-cd incrementor-dapp
+cd staking-dapp
 bun run dev
 ```
 

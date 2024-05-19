@@ -30,29 +30,29 @@ await $`soroban contract build`;
 console.log("built contracts");
 
 // Deploy the contract to the test network and obtain the contract ID.
-const incrementor_contractId = (
+const staking_contractId = (
   await $`soroban contract deploy \
-  --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm \
+  --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
   --network testnet --source owner`.text()
 ).replace(/\W/g, "");
 console.log("deployed contracts");
 
 // Verify the contract ID was obtained; if not, throw an error.
-if (!incrementor_contractId) throw new Error("Contracts not deployed");
+if (!staking_contractId) throw new Error("Contracts not deployed");
 
 // Save environment variables locally for later use.
 let file = ``;
-file += `INCREMENTOR_CONTRACT_ID=${incrementor_contractId}\n`;
+file += `STAKING_CONTRACT_ID=${staking_contractId}\n`;
 file += `SECRET=${secret}`;
 await Bun.write(".env.local", file);
 console.log("✅");
 
 // Generate TypeScript bindings for the deployed contract.
 const bindings = await $`soroban contract bindings typescript \
-  --wasm target/wasm32-unknown-unknown/release/soroban_increment_contract.wasm \
-  --id ${incrementor_contractId} \
+  --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
+  --id ${staking_contractId} \
   --network testnet \
-  --output-dir ./.soroban/incrementor-contract \
+  --output-dir ./.soroban/staking-contract \
   --overwrite`.text();
 bindings;
 console.log("generated bindings");

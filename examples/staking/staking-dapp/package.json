@@ -1,5 +1,5 @@
 {
-  "name": "incrementor-dapp",
+  "name": "staking-dapp",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@stellar/freighter-api": "^2.0.0",
-    "incrementor-contract": "file:../.soroban/incrementor-contract",
+    "staking-contract": "file:../.soroban/staking-contract",
     "stellar-sdk": "^12.0.0-rc.2"
   },
   "module": "index.ts"

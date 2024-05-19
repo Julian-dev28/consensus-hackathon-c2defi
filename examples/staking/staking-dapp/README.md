@@ -1,4 +1,4 @@
-# incrementor-dapp
+# staking-dapp
 
 To install dependencies:
 

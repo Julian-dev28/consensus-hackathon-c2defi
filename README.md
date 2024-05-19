@@ -27,6 +27,7 @@ The following resources cover the concepts behind the staking example and provid
 
 - **[Stellar Docs: Storing Data](https://developers.stellar.org/docs/smart-contracts/getting-started/storing-data):** Learn how to store data on the Stellar network.
 - **[Stellar Docs: Deploy Incrementor](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-increment-contract):** Deploy an incrementor contract to the Stellar testnet.
+- **[Data Types](./1-workshop/data-types):** An example repository that demonstrates how to use different data types in Stellar smart contracts.
 
 ### Building Defi Frontend
 
@@ -36,11 +37,7 @@ The following resources cover the concepts behind the staking example and provid
 
 - **[Public Goods Dapp](./2-examples/crowdfund):** Learn how to create a simple crowdfund for public goods.
 - **[Liquidity Pool Dapp](./2-examples/liquidity-pool):** Learn how to create a simple liquidity pool.
-
-### Conclusion
-
 - **[Stellar Developer Documentation](https://developers.stellar.org/):** Official documentation for Stellar developers.
-- ** [Data Types](./1-workshop/data-types):** An example repository that demonstrates how to use different data types in Stellar smart contracts.
 
 ## Stellar Track Overview
 

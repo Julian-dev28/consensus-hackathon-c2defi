@@ -41,13 +41,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Network button or display not found in the document.");
   }
 
-  // Call the helloWorld function
-  async function callContribute(
+  // Call the deposit function
+  async function callDeposit(
     contributor: string,
+    token: string,
     amount: bigint
   ): Promise<void> {
     try {
-      const result = await client.contribute({ contributor, amount });
+      const result = await client.deposit({ contributor, token, amount });
       console.log(result);
       // Assuming you want to sign the transaction after receiving it
       await signTransaction(result.toString());
@@ -56,14 +57,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  const helloBtn = document.getElementById("helloBtn");
+  const xlmAddress = "CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA";
+  const stakeBtn = document.getElementById("stakeBtn");
   const toInput = document.getElementById("toAddress") as HTMLInputElement;
+  // const tokenInput = document.getElementById("token") as HTMLInputElement;
   const amountInput = document.getElementById("amount") as HTMLInputElement;
 
-  if (helloBtn && toInput) {
-    helloBtn.addEventListener("click", () => {
+  if (stakeBtn && toInput) {
+    stakeBtn.addEventListener("click", () => {
       if (toInput.value && amountInput.value) {
-        callContribute(toInput.value, BigInt(amountInput.value));
+        callDeposit(toInput.value, xlmAddress, BigInt(amountInput.value));
       } else {
         console.error("No Stellar address provided.");
       }

@@ -5,16 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stellar App</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .section {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+    </style>
     <script>
       window.global = window; // Define global here to ensure it's set before any imports
     </script>
   </head>
   <body>
-    <h1>Stellar Interaction App</h1>
-    <button id="networkBtn">Get Network</button>
-    <input id="toAddress" type="text" placeholder="Enter Stellar address" />
-    <button id="helloBtn">Say Hello</button>
-    <p id="networkDisplay"></p>
+    <div class="header section">
+      <h1>Stellar Staking App</h1>
+    </div>
+    <div class="network-section section">
+      <button id="networkBtn">Get Network</button>
+      <p id="networkDisplay"></p>
+    </div>
+    <div class="staking-section section">
+      <button id="stakeBtn">Stake XLM</button>
+      <input id="toAddress" type="text" placeholder="Enter Stellar address" />
+      <!-- <input id="token" type="text" placeholder="Enter token address" /> -->
+      <input id="amount" type="number" placeholder="Enter amount" />
+    </div>
     <!-- Ensure TypeScript is compiled to JavaScript -->
     <script type="module" src="src/app.ts"></script>
   </body>

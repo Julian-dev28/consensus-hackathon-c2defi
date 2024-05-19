@@ -32,6 +32,7 @@ The following resources cover the concepts behind the staking example and provid
 ### Building Defi Frontend
 
 - **[Wallet Integration](https://developers.stellar.org/docs/smart-contracts/guides/freighter/integrate-freighter-react):** Learn how to integrate Freighter, a browser wallet, with a Frontend application.
+- **[Contract Client](./1-workshop/1-staking/staking-dapp//shared/contracts.ts):** How to build clients that interact with smart contracts.
 
 ### Conclusion
 

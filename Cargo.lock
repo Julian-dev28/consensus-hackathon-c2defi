@@ -1031,21 +1031,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "soroban-hello-world-contract"
-version = "0.0.0"
-dependencies = [
- "soroban-sdk",
- "soroban-token-sdk",
-]
-
-[[package]]
-name = "soroban-increment-contract"
-version = "0.0.0"
-dependencies = [
- "soroban-sdk",
-]
-
-[[package]]
 name = "soroban-ledger-snapshot"
 version = "20.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1133,13 +1118,6 @@ dependencies = [
  "stellar-xdr",
  "syn",
  "thiserror",
-]
-
-[[package]]
-name = "soroban-staking-contract"
-version = "0.0.0"
-dependencies = [
- "soroban-sdk",
 ]
 
 [[package]]

@@ -9,35 +9,38 @@ This hackathon track is based on the Consensus Workshop: Cash to DeFi Track. The
 ### Workshop
 
 - **Introduction to Rust and the Development Environment**
-- **Building a Basic "Incrementor"**
-- **Expanding the Application: Depositors and Balances**
-- **Application Use Cases: Public Goods and Liquidity Pools**
+- **Building Defi Smart Contracts**
+- **Building Defi Dapp Frontend**
 - **Conclusion**
 
 ## Workshop Resources
+
+The concepts behind the Staking Workshop are designed to help you understand the basics of Rust and smart contract development on the Stellar network.
+
+The following resources cover the concepts behind the staking example and provide a foundation for building more complex applications.
 
 ### Introduction to Rust and the Development Environment
 
 - **[Stellar Docs: Setup](https://developers.stellar.org/docs/smart-contracts/getting-started/setup):** Dive into smart contract development with our "Getting Started" tutorial.
 
-### Building a Basic "Incrementor"
+### Building Defi Smart Contracts
 
 - **[Stellar Docs: Storing Data](https://developers.stellar.org/docs/smart-contracts/getting-started/storing-data):** Learn how to store data on the Stellar network.
 - **[Stellar Docs: Deploy Incrementor](https://developers.stellar.org/docs/smart-contracts/getting-started/deploy-increment-contract):** Deploy an incrementor contract to the Stellar testnet.
 
-### Expanding the Application: Depositors and Balances
+### Building Defi Frontend
 
-- **[Depositors and Balances Dapp](./examples/2-deposits-and-balances/incrementor-dapp):** An example application that shows how to create a basic dapp with depositors and balances.
+- **[Wallet Integration](https://developers.stellar.org/docs/smart-contracts/guides/freighter/integrate-freighter-react):** Learn how to integrate Freighter, a browser wallet, with a Frontend application.
 
-### Application Use Cases: Liquidity Pools and Public Goods
+### Conclusion
 
-- **[Public Goods Dapp](./examples/3-public-goods/public-goods-dapp):** Learn how to create a simple crowdfund for public goods.
-- **[Liquidity Pool Dapp](./examples/4-liquidity-pool/lp-dapp):** Learn how to create a simple liquidity pool.
+- **[Public Goods Dapp](./2-examples/crowdfund):** Learn how to create a simple crowdfund for public goods.
+- **[Liquidity Pool Dapp](./2-examples/liquidity-pool):** Learn how to create a simple liquidity pool.
 
 ### Conclusion
 
 - **[Stellar Developer Documentation](https://developers.stellar.org/):** Official documentation for Stellar developers.
-- ** [Data Types](./examples/6-data-types/data-types):** An example repository that demonstrates how to use different data types in Stellar smart contracts.
+- ** [Data Types](./1-workshop/data-types):** An example repository that demonstrates how to use different data types in Stellar smart contracts.
 
 ## Stellar Track Overview
 

@@ -1,14 +1,13 @@
 // Define 'global' on window to ensure compatibility with Node.js modules in the browser
 (window as any).global = window;
 
-// Import statements need to be bundled or handled with a module system in practice
 import {
   isConnected,
   getNetwork,
   signTransaction,
 } from "@stellar/freighter-api";
-import { Keypair } from "stellar-sdk"; // Assuming Keypair is what you use from stellar-sdk
-import { client } from "../shared/contracts"; // Ensure client has the correct methods
+import { Keypair } from "stellar-sdk";
+import { client } from "../shared/contracts";
 
 // Ensuring that document content is fully loaded before running scripts
 document.addEventListener("DOMContentLoaded", async () => {
@@ -49,6 +48,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   ): Promise<void> {
     try {
       const result = await client.deposit({ contributor, token, amount });
+      console.log(result);
+      // Assuming you want to sign the transaction after receiving it
+      await signTransaction(result.toString());
+    } catch (e: any) {
+      console.error("Error calling helloWorld:", e);
+    }
+  }
+  // Call the withdraw function
+  async function callWithdraw(
+    contributor: string,
+    recipient: string,
+    token: string
+  ): Promise<void> {
+    try {
+      const result = await client.withdraw({
+        contributor,
+        recipient,
+        token,
+      });
       console.log(result);
       // Assuming you want to sign the transaction after receiving it
       await signTransaction(result.toString());

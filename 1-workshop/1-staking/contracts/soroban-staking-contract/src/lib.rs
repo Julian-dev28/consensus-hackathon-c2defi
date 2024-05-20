@@ -32,6 +32,7 @@ pub struct StakingContract;
 #[contractimpl]
 impl StakingContract {
     /// Initialize the contract with the admin address and the deposit token contract address.
+    /// Deploys the share token contract and initializes it.
     ///
     /// # Arguments
     /// - `env` - The execution environment of the contract.
@@ -41,18 +42,21 @@ impl StakingContract {
     pub fn initialize(env: Env, admin: Address, token_wasm_hash: BytesN<32>, token: Address) {
         // Sets the admin address in the storage.
         env.storage().instance().set(&DataKey::Admin, &admin);
+        // Deploys the share token contract.
         let share_contract = token::create_contract(&env, token_wasm_hash, &token);
+        // Initializes the share token contract.
         token::Client::new(&env, &share_contract).initialize(
             &env.current_contract_address(),
             &18u32,
             &"Pool Share Token".into_val(&env),
             &"POOL".into_val(&env),
         );
-
+        // Sets the token and share token addresses in the storage.
         env.storage().instance().set(&DataKey::Token, &token);
         env.storage()
             .instance()
             .set(&DataKey::ShareToken, &share_contract);
+        // Sets the initialized status to initialized.
         env.storage().instance().set(&DataKey::Initialized, &true);
     }
 

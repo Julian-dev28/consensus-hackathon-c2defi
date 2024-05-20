@@ -39,6 +39,7 @@ impl StakingContract {
     /// - `token_wasm_hash` - The hash of the token contract wasm.
     /// - `token` - The address of the deposit token contract.
     pub fn initialize(env: Env, admin: Address, token_wasm_hash: BytesN<32>, token: Address) {
+        // Sets the admin address in the storage.
         env.storage().instance().set(&DataKey::Admin, &admin);
         let share_contract = token::create_contract(&env, token_wasm_hash, &token);
         token::Client::new(&env, &share_contract).initialize(
@@ -241,6 +242,29 @@ impl StakingContract {
             .get(&DataKey::Contributions(contributor))
             .unwrap_or(0)
             > 0
+    }
+    // Add a new admin
+    pub fn add_new_admin(env: Env, new_admin: Address) {
+        Self::update_admin(env, new_admin);
+    }
+
+    // Sets the new admin address in the storage.
+    fn update_admin(env: Env, new_admin: Address) {
+        let current_admin = env
+            .storage()
+            .instance()
+            .get(&DataKey::Admin)
+            .unwrap_or(env.current_contract_address());
+        current_admin.require_auth();
+        env.storage().instance().set(&DataKey::Admin, &new_admin);
+    }
+
+    // Get the admin address
+    pub fn get_admin(env: Env) -> Address {
+        env.storage()
+            .instance()
+            .get(&DataKey::Admin)
+            .unwrap_or(env.current_contract_address())
     }
 }
 

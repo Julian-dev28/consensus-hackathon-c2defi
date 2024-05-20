@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 
-members = ["examples/*/contracts/*"]
+members = ["1-workshop/*/contracts/*", "2-examples/*/contracts/*"]
 
 [profile.release]
 opt-level = "z"

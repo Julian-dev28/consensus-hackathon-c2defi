@@ -1,3 +1,8 @@
+<!--
+  This is the main HTML file for the Stellar Staking App.
+  It contains the structure and layout of the web application.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,14 +26,16 @@
       <h1>Stellar Staking App</h1>
     </div>
     <div class="network-section section">
-      <button id="networkBtn">Get Network</button>
       <p id="networkDisplay"></p>
+      <p id="publicKeyDisplay"></p>
     </div>
     <div class="staking-section section">
       <button id="stakeBtn">Stake XLM</button>
-      <input id="toAddress" type="text" placeholder="Enter Stellar address" />
-      <!-- <input id="token" type="text" placeholder="Enter token address" /> -->
       <input id="amount" type="number" placeholder="Enter amount" />
+    </div>
+    <div class="unstaking-section section">
+      <button id="withdrawBtn">Unstake XLM</button>
+      <input id="toAddress" type="text" placeholder="Enter Stellar address" />
     </div>
     <!-- Ensure TypeScript is compiled to JavaScript -->
     <script type="module" src="src/app.ts"></script>

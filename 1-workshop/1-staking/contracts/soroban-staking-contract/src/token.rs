@@ -1,4 +1,5 @@
 #![allow(unused)]
+/// This module provides functionality related to the Soroban token.
 use soroban_sdk::{xdr::ToXdr, Address, Bytes, BytesN, Env};
 
 // token.rs is a module within the project.

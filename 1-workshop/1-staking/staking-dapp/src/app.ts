@@ -53,11 +53,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   ): Promise<void> {
     try {
       const result = await client.deposit({ contributor, token, amount });
-      console.log(result);
+      console.log(result.toString());
       // Assuming you want to sign the transaction after receiving it
       await signTransaction(result.toString());
     } catch (e: any) {
-      console.error("Error calling helloWorld:", e);
+      console.error("Error calling callDeposit:", e);
     }
   }
   // Call the withdraw function
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Assuming you want to sign the transaction after receiving it
       await signTransaction(result.toString());
     } catch (e: any) {
-      console.error("Error calling helloWorld:", e);
+      console.error("Error calling callWithdraw:", e);
     }
   }
 
@@ -95,10 +95,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   // const tokenInput = document.getElementById("token") as HTMLInputElement;
   const amountInput = document.getElementById("amount") as HTMLInputElement;
 
-  if (stakeBtn) {
+  if (stakeBtn && toInput && amountInput) {
     stakeBtn.addEventListener("click", () => {
-      if (amountInput.value) {
-        callDeposit(publicKey, xlmAddress, BigInt(amountInput.value));
+      if (toInput.value) {
+        callDeposit(toInput.value, xlmAddress, BigInt(amountInput.value));
       } else {
         console.error("No Stellar address provided.");
       }

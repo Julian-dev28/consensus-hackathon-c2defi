@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   ): Promise<void> {
     try {
       const result = await client.deposit({ contributor, token, amount });
-      console.log(result.toString());
+      console.log(result);
       // Assuming you want to sign the transaction after receiving it
       await signTransaction(result.toString());
     } catch (e: any) {
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  const xlmAddress = "CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA";
+  const xlmAddress = "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
   const stakeBtn = document.getElementById("stakeBtn");
   const toInput = document.getElementById("toAddress") as HTMLInputElement;
   const withdrawBtn = document.getElementById("withdrawBtn");

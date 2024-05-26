@@ -47,6 +47,60 @@ file += `SECRET=${secret}`;
 await Bun.write(".env.local", file);
 console.log("✅");
 
+console.log("Staking contract ID:", staking_contractId);
+console.log("intializing contract");
+
+// initialize the contract
+const initialize = await $`./target/bin/soroban contract invoke \
+  --id ${staking_contractId} \
+  --network testnet \
+  --source owner \
+  -- \
+  initialize \
+  --admin owner \
+  --token_wasm_hash 1d7515989335d6974948a295e76509ad5625bf168f2e69a0d7b9cc7b41c6cb43 \
+  --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`.text();
+initialize;
+
+console.log("contract initialized ✅");
+
+// start the campaign
+const startCampaign = await $`./target/bin/soroban contract invoke \
+  --id ${staking_contractId} \
+  --network testnet \
+  --source owner \
+  -- \
+  start_campaign \
+  --admin owner`.text();
+
+startCampaign;
+
+// make a deposit
+const deposit = await $`./target/bin/soroban contract invoke \
+  --id ${staking_contractId} \
+  --network testnet \
+  --source owner \
+  -- \
+  deposit \
+  --contributor owner \
+  --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC \
+  --amount 1000`.text();
+deposit;
+console.log("deposit made");
+
+// check the balance
+const balance = await $`./target/bin/soroban contract invoke \
+  --id ${staking_contractId} \
+  --source owner \
+  --network testnet \
+  -- \
+  get_share_token_balance \
+  --user owner`.text();
+
+balance;
+console.log("balance:", balance);
+
+console.log("generating conrtract bindings 📝");
 // Generate TypeScript bindings for the deployed contract.
 const bindings = await $`./target/bin/soroban contract bindings typescript \
   --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
@@ -56,3 +110,6 @@ const bindings = await $`./target/bin/soroban contract bindings typescript \
   --overwrite`.text();
 bindings;
 console.log("generated bindings");
+
+await $`cd staking-dapp && yarn && yarn dev`;
+console.log("dapp running at localhost:5173/");

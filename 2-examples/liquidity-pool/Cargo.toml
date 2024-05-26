@@ -14,11 +14,11 @@ codegen-units = 1
 lto = true
 
 [workspace.dependencies]
-soroban-sdk = "20.5.0"
-soroban-token-sdk = "20.5.0"
+soroban-sdk = "21.0.1-preview.3"
+soroban-token-sdk = "21.0.1-preview.3"
 
 [workspace.dev-dependencies]
-soroban-sdk = { version = "20.5.0", features = ["testutils"] }
+soroban-sdk = { version = "21.0.1-preview.3", features = ["testutils"] }
 
 
 [profile.release-with-logs]

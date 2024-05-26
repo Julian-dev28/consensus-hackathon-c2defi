@@ -11,17 +11,9 @@ pub enum DataKey {
     Contributors,
     Token,
     ShareToken,
-    Status,
+    IsActive,
     Admin,
     Initialized,
-}
-
-// Defines the enum to represent different states.
-#[derive(Clone, Copy, PartialEq, Eq)]
-#[contracttype]
-pub enum Status {
-    Active = 0,
-    Inactive = 1,
 }
 
 // The `#[contract]` attribute marks a type as being the type that contract functions are attached for.
@@ -74,9 +66,7 @@ impl StakingContract {
             .unwrap_or(env.current_contract_address());
 
         assert!(admin == current_admin);
-        env.storage()
-            .instance()
-            .set(&DataKey::Status, &Status::Active);
+        env.storage().instance().set(&DataKey::IsActive, &true);
     }
 
     /// Stop a staking campaign
@@ -94,17 +84,15 @@ impl StakingContract {
             .unwrap_or(env.current_contract_address());
 
         assert!(admin == current_admin);
-        env.storage()
-            .instance()
-            .set(&DataKey::Status, &Status::Inactive);
+        env.storage().instance().set(&DataKey::IsActive, &false);
     }
 
     /// Get the status of the staking campaign
-    pub fn check_campaign_status(env: Env) -> Status {
+    pub fn check_campaign_status(env: Env) -> bool {
         env.storage()
             .instance()
-            .get(&DataKey::Status)
-            .unwrap_or(Status::Inactive)
+            .get(&DataKey::IsActive)
+            .unwrap_or(false)
     }
 
     // Add staking interaction functions
@@ -119,9 +107,9 @@ impl StakingContract {
     pub fn deposit(env: Env, contributor: Address, token: Address, amount: i128) {
         contributor.require_auth();
         // import Status enum from staking module
-        let status: Status = Self::check_campaign_status(env.clone());
-        if status != Status::Active {
-            panic!("contract is not active");
+        let is_active: bool = Self::check_campaign_status(env.clone());
+        if is_active != true {
+            panic!("campaign is not activated");
         }
         if !Self::is_contributor(env.clone(), contributor.clone()) {
             Self::add_contributor(env.clone(), contributor.clone());
@@ -150,9 +138,9 @@ impl StakingContract {
     pub fn withdraw(env: Env, contributor: Address, recipient: Address, token: Address) {
         contributor.require_auth();
         // import Status enum from staking module
-        let status = Self::check_campaign_status(env.clone());
-        if status != Status::Active {
-            panic!("contract is not active");
+        let is_active = Self::check_campaign_status(env.clone());
+        if is_active != true {
+            panic!("campaign is not activated");
         }
         if !Self::is_contributor(env.clone(), contributor.clone()) {
             panic!("contributor has not contributed");

@@ -97,8 +97,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (stakeBtn && toInput && amountInput) {
     stakeBtn.addEventListener("click", () => {
-      if (toInput.value) {
-        callDeposit(toInput.value, xlmAddress, BigInt(amountInput.value));
+      if (toInput.value && amountInput.value) {
+        let amount = BigInt(amountInput.value) ** BigInt(10 ** 7);
+
+        callDeposit(toInput.value, xlmAddress, amount);
       } else {
         console.error("No Stellar address provided.");
       }

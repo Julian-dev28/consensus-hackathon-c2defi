@@ -7,6 +7,7 @@ import {
   signTransaction,
   getPublicKey,
 } from "@stellar/freighter-api";
+
 import { client } from "../shared/contracts";
 
 // Ensuring that document content is fully loaded before running scripts
@@ -54,8 +55,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const result = await client.deposit({ contributor, token, amount });
       console.log(result);
+
       // Assuming you want to sign the transaction after receiving it
-      await signTransaction(result.toString());
+      await signTransaction(result.toString(), { accountToSign: publicKey });
     } catch (e: any) {
       console.error("Error calling callDeposit:", e);
     }
@@ -98,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (stakeBtn && toInput && amountInput) {
     stakeBtn.addEventListener("click", () => {
       if (toInput.value && amountInput.value) {
-        let amount = BigInt(amountInput.value) ** BigInt(10 ** 18);
+        let amount = BigInt(amountInput.value) ** BigInt(10 ** 7);
 
         callDeposit(toInput.value, xlmAddress, amount);
       } else {

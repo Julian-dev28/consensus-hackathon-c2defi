@@ -111,9 +111,9 @@ impl StakingContract {
         if is_active != true {
             panic!("campaign is inactive");
         }
-        if !Self::is_contributor(env.clone(), contributor.clone()) {
-            Self::add_contributor(env.clone(), contributor.clone());
-        }
+        // if !Self::is_contributor(env.clone(), contributor.clone()) {
+        //     Self::add_contributor(env.clone(), contributor.clone());
+        // }
         // Transfer the tokens to the contract
         token::Client::new(&env, &token).transfer(
             &contributor,
@@ -214,18 +214,18 @@ impl StakingContract {
         token::Client::new(&env, &share_token).balance(&user)
     }
 
-    /// Helper function to add a new contributor to the storage.
-    fn add_contributor(env: Env, contributor: Address) {
-        let mut contributors = env
-            .storage()
-            .instance()
-            .get(&DataKey::Contributors)
-            .unwrap_or(vec![&env, contributor.clone()]);
-        contributors.push_back(contributor);
-        env.storage()
-            .instance()
-            .set(&DataKey::Contributors, &contributors);
-    }
+    // /// Helper function to add a new contributor to the storage.
+    // fn add_contributor(env: Env, contributor: Address) {
+    //     let mut contributors = env
+    //         .storage()
+    //         .instance()
+    //         .get(&DataKey::Contributors)
+    //         .unwrap_or(vec![&env, contributor.clone()]);
+    //     contributors.push_back(contributor);
+    //     env.storage()
+    //         .instance()
+    //         .set(&DataKey::Contributors, &contributors);
+    // }
 
     // Check if a user is a contributor
     fn is_contributor(env: Env, contributor: Address) -> bool {

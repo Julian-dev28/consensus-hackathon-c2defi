@@ -16,6 +16,6 @@
     "stellar-sdk": "^12.0.0-rc.2"
   },
   "scripts": {
-    "setup": "bun index.ts"
+    "setup": "bun scripts/e2e.ts"
   }
 }

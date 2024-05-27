@@ -1,21 +1,32 @@
 // Define 'global' on window to ensure compatibility with Node.js modules in the browser
-(window as any).global = window;
+window.global = window;
 
 import {
   isConnected,
   getNetwork,
   signTransaction,
   getPublicKey,
+  setAllowed,
 } from "@stellar/freighter-api";
 
 import { client } from "../shared/contracts";
 
 // Ensuring that document content is fully loaded before running scripts
 document.addEventListener("DOMContentLoaded", async () => {
-  // Check if Freighter is connected
+  // Function to check if Freighter is connected
   async function checkFreighterConnection(): Promise<void> {
+    const checkFreighterBtn = document.getElementById("checkFreighterBtn");
+
     if (!(await isConnected())) {
       alert("Freighter not detected.");
+      if (checkFreighterBtn) {
+        setAllowed();
+        isConnected();
+      }
+    } else {
+      if (checkFreighterBtn) {
+        checkFreighterBtn.classList.add("hidden");
+      }
     }
   }
 
@@ -26,7 +37,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const networkDisplay = document.getElementById(
     "networkDisplay"
   ) as HTMLParagraphElement;
-
   let network = await getNetwork();
   if (networkDisplay) {
     networkDisplay.textContent = `Network: ${network}`;
@@ -35,18 +45,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Get and display the public key
-  let publicKey = await getPublicKey();
+  const publicKey = await getPublicKey();
   const publicKeyDisplay = document.getElementById(
     "publicKeyDisplay"
   ) as HTMLParagraphElement;
-
   if (publicKeyDisplay) {
     publicKeyDisplay.textContent = `Public Key: ${publicKey}`;
   } else {
     console.error("Public key display not found in the document.");
   }
 
-  // Call the deposit function
+  // Get and display the contract balance
+  const balance = await client.get_share_token_balance({
+    user: publicKey,
+  });
+
+  const balanceDisplay = document.getElementById(
+    "balanceDisplay"
+  ) as HTMLParagraphElement;
+  if (balanceDisplay) {
+    balanceDisplay.textContent = `Balance: ${balance.result}`;
+  } else {
+    console.error("Balance display not found in the document.");
+  }
+
+  // Function to call the deposit method
   async function callDeposit(
     contributor: string,
     token: string,
@@ -56,53 +79,53 @@ document.addEventListener("DOMContentLoaded", async () => {
       const result = await client.deposit({ contributor, token, amount });
       console.log(result);
 
-      // Assuming you want to sign the transaction after receiving it
-      await signTransaction(result.toString(), { accountToSign: publicKey });
+      // Sign the transaction after receiving it
+      await signTransaction(result.toString());
     } catch (e: any) {
       console.error("Error calling callDeposit:", e);
     }
   }
-  // Call the withdraw function
-  /**
-   * Calls the withdraw function to initiate a withdrawal for a contributor.
-   *
-   * @param contributor - The address of the contributor initiating the withdrawal.
-   * @param recipient - The address where the withdrawn tokens will be sent.
-   * @param token - The token to be withdrawn.
-   * @returns A Promise that resolves when the withdrawal is successful.
-   */
+
+  // Function to call the withdraw method
   async function callWithdraw(
     contributor: string,
     recipient: string,
     token: string
   ): Promise<void> {
     try {
-      const result = await client.withdraw({
-        contributor,
-        recipient,
-        token,
-      });
+      const result = await client.withdraw({ contributor, recipient, token });
       console.log(result);
-      // Assuming you want to sign the transaction after receiving it
+
+      // Sign the transaction after receiving it
       await signTransaction(result.toString());
     } catch (e: any) {
       console.error("Error calling callWithdraw:", e);
     }
   }
 
+  // Stellar address and button/input elements
   const xlmAddress = "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
+  const checkFreighterBtn = document.getElementById("checkFreighterBtn");
   const stakeBtn = document.getElementById("stakeBtn");
-  const toInput = document.getElementById("toAddress") as HTMLInputElement;
+  const toAddress = document.getElementById("toAddress") as HTMLInputElement;
   const withdrawBtn = document.getElementById("withdrawBtn");
-  // const tokenInput = document.getElementById("token") as HTMLInputElement;
-  const amountInput = document.getElementById("amount") as HTMLInputElement;
+  const amountInput = document.getElementById(
+    "amountInput"
+  ) as HTMLInputElement;
 
-  if (stakeBtn && toInput && amountInput) {
+  // Event listener for the check Freighter button
+  if (checkFreighterBtn) {
+    checkFreighterBtn.addEventListener("click", () => {
+      checkFreighterConnection();
+    });
+  }
+
+  // Event listener for the stake button
+  if (stakeBtn && toAddress && amountInput) {
     stakeBtn.addEventListener("click", () => {
-      if (toInput.value && amountInput.value) {
-        let amount = BigInt(amountInput.value) ** BigInt(10 ** 7);
-
-        callDeposit(toInput.value, xlmAddress, amount);
+      if (toAddress.value && xlmAddress && amountInput.value) {
+        let amount = BigInt(amountInput.value) * BigInt(10 ** 7);
+        callDeposit(toAddress.value, xlmAddress, amount);
       } else {
         console.error("No Stellar address provided.");
       }
@@ -110,10 +133,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     console.error("Button or input field not found in the document.");
   }
-  if (withdrawBtn && toInput) {
+
+  // Event listener for the withdraw button
+  if (withdrawBtn && toAddress) {
     withdrawBtn.addEventListener("click", () => {
-      if (toInput.value) {
-        callWithdraw(publicKey, toInput.value, xlmAddress);
+      if (toAddress.value) {
+        callWithdraw(publicKey, toAddress.value, xlmAddress);
       } else {
         console.error("No Stellar address provided.");
       }

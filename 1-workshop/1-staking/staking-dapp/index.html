@@ -1,42 +1,123 @@
-<!--
-  This is the main HTML file for the Stellar Staking App.
-  It contains the structure and layout of the web application.
--->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stellar App</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Staking Dapp Example</title>
     <style>
-      .section {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-bottom: 20px;
+      /* Root variables for colors and fonts */
+      :root {
+        --primary-color: hsl(0, 0%, 0%); /* Yellow */
+        --secondary-color: #1e88e5; /* Blue */
+        --card-bg-color: #ffffff;
+        --card-shadow-color: rgba(0, 0, 0, 0.2);
+        --text-color: #000000;
+        --background-color: #f0f0f0;
+        font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
       }
-    </style>
-    <script>
-      window.global = window; // Define global here to ensure it's set before any imports
-    </script>
+
+      /* General body styles */
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+
+      /* Main container */
+      #app {
+        max-width: 1280px;
+        margin: 20px;
+        padding: 2rem;
+        text-align: center;
+        background-color: var(--card-bg-color);
+        border-radius: 12px;
+        box-shadow: 0 4px 8px var(--card-shadow-color);
+      }
+
+      /* Card styles */
+      .card {
+        padding: 2em;
+        margin: 1em 0;
+        background-color: var(--card-bg-color);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px var(--card-shadow-color);
+        color: var(--text-color);
+      }
+
+          /* Hidden card */
+    .hidden {
+      display: none;
+    }
+
+      /* Heading styles */
+      h1 {
+        font-size: 2.5em;
+        color: var(--primary-color);
+      }
+
+      /* Paragraph styles */
+      p {
+        margin: 0.5em 0;
+        font-size: 1.2em;
+      }
+
+      /* Input styles */
+      input {
+        padding: 0.6em;
+        margin: 0.5em 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: calc(100% - 1.2em);
+      }
+
+      /* Button styles */
+      button {
+        border-radius: 8px;
+        border: 1px solid transparent;
+        padding: 0.6em 1.2em;
+        font-size: 1em;
+        font-weight: 500;
+        font-family: inherit;
+        background-color: rgb(238, 206, 0);
+        color: #000000;
+        cursor: pointer;
+        transition: border-color 0.25s, box-shadow 0.25s;
+      }
+
+      /* Button hover and focus styles */
+      button:hover {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 10px var(--secondary-color);
+      }
+
+      button:focus,
+      button:focus-visible {
+        outline: 4px auto -webkit-focus-ring-color;
+      }
+      </style>
   </head>
   <body>
-    <div class="header section">
-      <h1>Stellar Staking App</h1>
-    </div>
-    <div class="network-section section">
-      <p id="networkDisplay"></p>
-      <p id="publicKeyDisplay"></p>
-    </div>
-    <div class="staking-section section">
-      <button id="stakeBtn">Stake XLM</button>
-      <input id="toAddress" type="text" placeholder="Enter Stellar address" />
-      <input id="amount" type="number" placeholder="Enter amount" />
-    </div>
-    <div class="unstaking-section section">
-      <button id="withdrawBtn">Unstake XLM</button>
-      <input id="toAddress" type="text" placeholder="Enter Stellar address" />
+    <div id="app">
+      <h1>Staking Dapp Example</h1>
+      <div class="card" id="networkCard">
+        <button id="checkFreighterBtn">Check Freighter Connection</button>
+        <p id="networkDisplay">Network: Loading...</p>
+      </div>
+      <div class="card" id="publicKeyCard">
+        <p id="publicKeyDisplay">Public Key: Loading...</p>
+      </div>
+      <div class="card" id="balanceCard">
+        <p id="balanceDisplay">Balance: Loading...</p>
+      <div class="card">
+        <input type="text" id="toAddress" placeholder="Recipient Address" />
+        <input type="number" id="amountInput" placeholder="Amount" />
+        <button id="stakeBtn">Stake</button>
+        <button id="withdrawBtn">Withdraw</button>
+      </div>
     </div>
     <!-- Ensure TypeScript is compiled to JavaScript -->
     <script type="module" src="src/app.ts"></script>

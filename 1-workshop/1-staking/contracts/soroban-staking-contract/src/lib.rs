@@ -40,8 +40,8 @@ impl StakingContract {
         token::Client::new(&env, &share_contract).initialize(
             &env.current_contract_address(),
             &18u32,
-            &"Pool Share Token".into_val(&env),
-            &"POOL".into_val(&env),
+            &"Share Token".into_val(&env),
+            &"SHARE".into_val(&env),
         );
         // Sets the token and share token addresses in the storage.
         env.storage().instance().set(&DataKey::Token, &token);
@@ -98,18 +98,18 @@ impl StakingContract {
     // Add staking interaction functions
 
     /// Records a deposit made by a contributor if the staking is active.
-    ///
     /// # Arguments
     ///
     /// - `env` - The execution environment of the contract.
     /// - `contributor` - The address of the contributor making the contribution.
+    /// - `token` - The address of the token to deposit.
     /// - `amount` - The amount of contribution in tokens.
     pub fn deposit(env: Env, contributor: Address, token: Address, amount: i128) {
         contributor.require_auth();
         // import Status enum from staking module
         let is_active: bool = Self::check_campaign_status(env.clone());
         if is_active != true {
-            panic!("campaign is not activated");
+            panic!("campaign is inactive");
         }
         if !Self::is_contributor(env.clone(), contributor.clone()) {
             Self::add_contributor(env.clone(), contributor.clone());

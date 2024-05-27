@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (stakeBtn && toInput && amountInput) {
     stakeBtn.addEventListener("click", () => {
       if (toInput.value && amountInput.value) {
-        let amount = BigInt(amountInput.value) ** BigInt(10 ** 7);
+        let amount = BigInt(amountInput.value) ** BigInt(10 ** 18);
 
         callDeposit(toInput.value, xlmAddress, amount);
       } else {

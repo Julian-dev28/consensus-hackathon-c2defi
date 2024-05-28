@@ -77,7 +77,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     amount: bigint
   ): Promise<void> {
     try {
-      const result = await client.deposit({ contributor, token, amount });
+      const result = await client.deposit(
+        {
+          contributor,
+          token,
+          amount,
+        },
+        { simulate: true }
+      );
       console.log(result);
 
       // Sign the transaction after receiving it

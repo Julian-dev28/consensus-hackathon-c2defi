@@ -7,10 +7,10 @@ const staking_contractId = process.env.STAKING_CONTRACT_ID;
 const deposit = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
-  --source SCTW7YZCPF5KLB6ALZ2RBUIG3FQIVEJYK5OFCBHZU5637L44AD5OJZYS \
+  --source zoro \
   -- \
   deposit \
-  --contributor GCSXUXZSA2VEXN5VGOWE5ODAJLC575JCMWRJ4FFRDWSTRCJYQK4ML6V3 \
+  --contributor zoro \
   --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC \
   --amount 10000000`.text();
 deposit;
@@ -19,11 +19,11 @@ console.log("deposit made");
 // check the balance
 const balance = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
-  --source alice \
+  --source zoro \
   --network testnet \
   -- \
   get_share_token_balance \
-  --user GCSXUXZSA2VEXN5VGOWE5ODAJLC575JCMWRJ4FFRDWSTRCJYQK4ML6V3`.text();
+  --user zoro`.text();
 
 balance;
 console.log("balance:", balance);

@@ -48,10 +48,10 @@
         color: var(--text-color);
       }
 
-          /* Hidden card */
-    .hidden {
-      display: none;
-    }
+      /* Hidden card */
+      .hidden {
+        display: none;
+      }
 
       /* Heading styles */
       h1 {
@@ -98,20 +98,70 @@
       button:focus-visible {
         outline: 4px auto -webkit-focus-ring-color;
       }
-      </style>
+
+      /* Flex container for button, image, and description */
+      .flex-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      /* Image styles */
+      .image {
+        width: 100px;
+        height: 100px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      /* Description styles */
+      .description {
+        text-align: left;
+        font-size: 1.5em;
+        color: #000000;
+      }
+    </style>
   </head>
   <body>
+    <div id="staking" class="card" style="margin-left: 1%">
+      <img
+        src="./pepeNatureStaking.webp"
+        alt="Description image"
+        class="image"
+        style="width: 500px; height: 500px"
+      />
+      <p class="description">
+        Stake your Lumens (XLM) to support the Pepe Nature Reserve and receive
+        share tokens. Each token represents your contribution and one carbon
+        credit, funding projects like nature restoration, carbon capture, and
+        bio diversity improvement.
+        <br />
+        <br />
+        Help us protect nature and support community development.
+      </p>
+    </div>
+
     <div id="app">
-      <h1>Staking Dapp Example</h1>
-      <div class="card" id="networkCard">
-        <button id="checkFreighterBtn">Check Freighter Connection</button>
+      <h1>Pepe Nature Reserve</h1>
+      <div class="card hidden" id="networkCard">
+        <div class="flex-container">
+          <button id="checkFreighterBtn">Check Freighter Connection</button>
+          <p class="description">
+            This button checks if the Freighter wallet is connected. Ensure you
+            have Freighter installed and set up correctly. Connect your
+            Freighter wallet to Stake and Withdraw Stellar Lumens.
+          </p>
+        </div>
         <p id="networkDisplay">Network: Loading...</p>
       </div>
       <div class="card" id="publicKeyCard">
         <p id="publicKeyDisplay">Public Key: Loading...</p>
+        <img src="./qr.png" alt="QR Code" style="height: 40%; width: 40%" />
       </div>
       <div class="card" id="balanceCard">
         <p id="balanceDisplay">Balance: Loading...</p>
+      </div>
       <div class="card">
         <input type="text" id="toAddress" placeholder="Recipient Address" />
         <input type="number" id="amountInput" placeholder="Amount" />

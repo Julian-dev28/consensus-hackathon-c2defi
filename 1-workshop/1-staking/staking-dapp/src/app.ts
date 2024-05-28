@@ -64,7 +64,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     "balanceDisplay"
   ) as HTMLParagraphElement;
   if (balanceDisplay) {
-    balanceDisplay.textContent = `Balance: ${balance.result}`;
+    let formattedBalance = balance.result / BigInt(10 ** 7);
+    balanceDisplay.textContent = `Balance: ${formattedBalance}`;
   } else {
     console.error("Balance display not found in the document.");
   }

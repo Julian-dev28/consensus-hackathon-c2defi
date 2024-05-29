@@ -20,7 +20,7 @@ await horizon.friendbot(pubkey).call();
 console.log("created account");
 
 // Configure the environment for deploying a contract and register the secret key.
-await $`./target/bin/soroban keys add owner --secret-key`.env({
+await $`./target/bin/soroban keys add zoro --secret-key`.env({
   ...process.env,
   SOROBAN_SECRET_KEY: secret,
 });
@@ -33,7 +33,7 @@ console.log("built contracts");
 const staking_contractId = (
   await $`./target/bin/soroban contract deploy \
   --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
-  --network testnet --source owner`.text()
+  --network testnet --source zoro`.text()
 ).replace(/\W/g, "");
 console.log("deployed contracts");
 
@@ -54,10 +54,10 @@ console.log("intializing contract");
 const initialize = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
-  --source owner \
+  --source zoro \
   -- \
   initialize \
-  --admin owner \
+  --admin zoro \
   --token_wasm_hash 1d7515989335d6974948a295e76509ad5625bf168f2e69a0d7b9cc7b41c6cb43 \
   --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`.text();
 initialize;
@@ -68,10 +68,10 @@ console.log("contract initialized ✅");
 const startCampaign = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
-  --source owner \
+  --source zoro \
   -- \
   start_campaign \
-  --admin owner`.text();
+  --admin zoro`.text();
 
 startCampaign;
 
@@ -79,10 +79,10 @@ startCampaign;
 const deposit = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
-  --source owner \
+  --source zoro \
   -- \
   deposit \
-  --contributor owner \
+  --contributor zoro \
   --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC \
   --amount 10000000`.text();
 deposit;
@@ -91,11 +91,11 @@ console.log("deposit made");
 // check the balance
 const balance = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
-  --source owner \
+  --source zoro \
   --network testnet \
   -- \
   get_share_token_balance \
-  --user owner`.text();
+  --user zoro`.text();
 
 balance;
 console.log("balance:", balance);
@@ -104,10 +104,10 @@ console.log("balance:", balance);
 const withdraw = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
-  --source owner \
+  --source zoro \
   -- \
   withdraw \
-  --contributor owner \
+  --contributor zoro \
   --recipient zoro \
   --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`.text();
 withdraw;

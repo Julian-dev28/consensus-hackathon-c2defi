@@ -100,6 +100,31 @@ const balance = await $`./target/bin/soroban contract invoke \
 balance;
 console.log("balance:", balance);
 
+// make a withdrawal
+const withdraw = await $`./target/bin/soroban contract invoke \
+  --id ${staking_contractId} \
+  --network testnet \
+  --source owner \
+  -- \
+  withdraw \
+  --contributor owner \
+  --recipient zoro \
+  --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`.text();
+withdraw;
+console.log("withdrawal made");
+
+// check the balance
+const balance2 = await $`./target/bin/soroban contract invoke \
+  --id ${staking_contractId} \
+  --source zoro \
+  --network testnet \
+  -- \
+  get_share_token_balance \
+  --user zoro`.text();
+
+balance2;
+console.log("balance:", balance2);
+
 console.log("generating conrtract bindings 📝");
 // Generate TypeScript bindings for the deployed contract.
 const bindings = await $`./target/bin/soroban contract bindings typescript \

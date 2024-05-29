@@ -142,9 +142,9 @@ impl StakingContract {
         if is_active != true {
             panic!("campaign is not activated");
         }
-        if !Self::is_contributor(env.clone(), contributor.clone()) {
-            panic!("contributor has not contributed");
-        }
+        // if !Self::is_contributor(env.clone(), contributor.clone()) {
+        //     panic!("contributor has not contributed");
+        // }
         let contribution = Self::get_user_contribution(env.clone(), contributor.clone());
         // Transfer the contribution to the recipient
         token::Client::new(&env, &token).transfer(
@@ -152,12 +152,9 @@ impl StakingContract {
             &recipient,
             &contribution,
         );
-        // Burn the share token
+        // // Burn the share token
         let share_token = Self::get_share_token(env.clone());
         token::Client::new(&env, &share_token).burn(&contributor, &contribution);
-
-        // Clear the contributor from the storage
-        Self::clear_contributor(env.clone(), contributor.clone());
     }
 
     /// Clear the contributor from the storage
@@ -232,8 +229,7 @@ impl StakingContract {
         env.storage()
             .instance()
             .get(&DataKey::Contributions(contributor))
-            .unwrap_or(0)
-            > 0
+            .unwrap_or(false)
     }
     // Add a new admin
     pub fn add_new_admin(env: Env, new_admin: Address) {

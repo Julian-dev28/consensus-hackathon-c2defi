@@ -7,23 +7,23 @@ const staking_contractId = process.env.STAKING_CONTRACT_ID;
 const withdraw = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
-  --source alice \
+  --source owner \
   -- \
   withdraw \
-  --contributor alice \
-  --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC \
-  --amount 10000000`.text();
+  --contributor owner \
+  --recipient zoro \
+  --token CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC`.text();
 withdraw;
 console.log("withdrawal made");
 
 // check the balance
 const balance = await $`./target/bin/soroban contract invoke \
   --id ${staking_contractId} \
-  --source alice \
+  --source zoro \
   --network testnet \
   -- \
   get_share_token_balance \
-  --user alice`.text();
+  --user zoro`.text();
 
 balance;
 console.log("balance:", balance);

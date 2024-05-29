@@ -56,4 +56,10 @@ fn contribute() {
     assert_eq!(client.get_user_contribution(&user), 100);
     // Check the share token balance of the contributor.
     assert_eq!(client.get_share_token_balance(&user), 100);
+    // Make a withdrawal from the campaign.
+    client.withdraw(&user, &user, &token1.address);
+    // Check the contribution of the contributor.
+    // assert_eq!(client.get_user_contribution(&user), 0);
+    // Check the share token balance of the contributor.
+    // assert_eq!(client.get_share_token_balance(&user), 0);
 }

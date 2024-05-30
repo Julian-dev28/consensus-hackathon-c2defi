@@ -4,7 +4,7 @@ import { $ } from "bun";
 const staking_contractId = process.env.STAKING_CONTRACT_ID;
 
 // make a withdrawal
-const withdraw = await $`./target/bin/soroban contract invoke \
+const withdraw = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source owner \
@@ -17,7 +17,7 @@ withdraw;
 console.log("withdrawal made");
 
 // check the balance
-const balance = await $`./target/bin/soroban contract invoke \
+const balance = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --source zoro \
   --network testnet \

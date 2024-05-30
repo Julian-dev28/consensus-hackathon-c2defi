@@ -20,18 +20,18 @@ await horizon.friendbot(pubkey).call();
 console.log("created account");
 
 // Configure the environment for deploying a contract and register the secret key.
-await $`./target/bin/soroban keys add owner --secret-key`.env({
+await $`soroban keys add owner --secret-key`.env({
   ...process.env,
   SOROBAN_SECRET_KEY: secret,
 });
 
 // Build and deploy the smart contract.
-await $`./target/bin/soroban contract build`;
+await $`soroban contract build`;
 console.log("built contracts");
 
 // Deploy the contract to the test network and obtain the contract ID.
 const staking_contractId = (
-  await $`./target/bin/soroban contract deploy \
+  await $`soroban contract deploy \
   --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
   --network testnet --source owner`.text()
 ).replace(/\W/g, "");
@@ -52,7 +52,7 @@ console.log("intializing contract");
 
 console.log("generating conrtract bindings 📝");
 // Generate TypeScript bindings for the deployed contract.
-const bindings = await $`./target/bin/soroban contract bindings typescript \
+const bindings = await $`soroban contract bindings typescript \
   --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
   --id ${staking_contractId} \
   --network testnet \

@@ -4,7 +4,7 @@ import { $ } from "bun";
 const staking_contractId = process.env.STAKING_CONTRACT_ID;
 
 // make a deposit
-const deposit = await $`./target/bin/soroban contract invoke \
+const deposit = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source zoro \
@@ -17,7 +17,7 @@ deposit;
 console.log("deposit made");
 
 // check the balance
-const balance = await $`./target/bin/soroban contract invoke \
+const balance = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --source zoro \
   --network testnet \

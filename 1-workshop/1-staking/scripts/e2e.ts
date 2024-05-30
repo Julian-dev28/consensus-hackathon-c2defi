@@ -20,18 +20,18 @@ await horizon.friendbot(pubkey).call();
 console.log("created account");
 
 // Configure the environment for deploying a contract and register the secret key.
-await $`./target/bin/soroban keys add zoro --secret-key`.env({
+await $`soroban keys add zoro --secret-key`.env({
   ...process.env,
   SOROBAN_SECRET_KEY: secret,
 });
 
 // Build and deploy the smart contract.
-await $`./target/bin/soroban contract build`;
+await $`soroban contract build`;
 console.log("built contracts");
 
 // Deploy the contract to the test network and obtain the contract ID.
 const staking_contractId = (
-  await $`./target/bin/soroban contract deploy \
+  await $`soroban contract deploy \
   --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
   --network testnet --source zoro`.text()
 ).replace(/\W/g, "");
@@ -51,7 +51,7 @@ console.log("Staking contract ID:", staking_contractId);
 console.log("intializing contract");
 
 // initialize the contract
-const initialize = await $`./target/bin/soroban contract invoke \
+const initialize = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source zoro \
@@ -65,7 +65,7 @@ initialize;
 console.log("contract initialized ✅");
 
 // start the campaign
-const startCampaign = await $`./target/bin/soroban contract invoke \
+const startCampaign = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source zoro \
@@ -76,7 +76,7 @@ const startCampaign = await $`./target/bin/soroban contract invoke \
 startCampaign;
 
 // make a deposit
-const deposit = await $`./target/bin/soroban contract invoke \
+const deposit = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source zoro \
@@ -89,7 +89,7 @@ deposit;
 console.log("deposit made");
 
 // check the balance
-const balance = await $`./target/bin/soroban contract invoke \
+const balance = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --source zoro \
   --network testnet \
@@ -101,7 +101,7 @@ balance;
 console.log("balance:", balance);
 
 // make a withdrawal
-const withdraw = await $`./target/bin/soroban contract invoke \
+const withdraw = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source zoro \
@@ -114,7 +114,7 @@ withdraw;
 console.log("withdrawal made");
 
 // check the balance
-const balance2 = await $`./target/bin/soroban contract invoke \
+const balance2 = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --source zoro \
   --network testnet \
@@ -127,7 +127,7 @@ console.log("balance:", balance2);
 
 console.log("generating conrtract bindings 📝");
 // Generate TypeScript bindings for the deployed contract.
-const bindings = await $`./target/bin/soroban contract bindings typescript \
+const bindings = await $`soroban contract bindings typescript \
   --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
   --id ${staking_contractId} \
   --network testnet \

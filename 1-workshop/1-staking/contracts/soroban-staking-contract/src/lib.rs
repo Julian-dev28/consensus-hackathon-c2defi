@@ -125,8 +125,17 @@ impl StakingContract {
         token::Client::new(&env, &share_token).mint(&contributor, &amount);
         // Update the contribution in the storage
         Self::set_contribution(env.clone(), contributor.clone(), amount);
-    }
 
+        // let mut contributor_list = env
+        //     .storage()
+        //     .instance()
+        //     .get(&DataKey::Contributors)
+        //     .unwrap_or(vec![&env, contributor.clone()]);
+        // contributor_list.push_front(contributor.clone());
+        // env.storage()
+        //     .instance()
+        //     .set(&DataKey::Contributors, &contributor_list);
+    }
     /// Withdraws the contribution made by a contributor if the staking is active.
     ///
     /// # Arguments
@@ -225,7 +234,7 @@ impl StakingContract {
     // }
 
     // Check if a user is a contributor
-    fn is_contributor(env: Env, contributor: Address) -> bool {
+    pub fn is_contributor(env: Env, contributor: Address) -> bool {
         env.storage()
             .instance()
             .get(&DataKey::Contributions(contributor))

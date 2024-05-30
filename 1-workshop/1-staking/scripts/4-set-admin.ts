@@ -4,7 +4,7 @@ import { $ } from "bun";
 // Deploy the contract to the test network and obtain the contract ID.
 const staking_contractId = process.env.STAKING_CONTRACT_ID;
 // initialize the contract
-const current_admin = await $`./target/bin/soroban contract invoke \
+const current_admin = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source owner \
@@ -15,7 +15,7 @@ current_admin;
 console.log("admin:", current_admin);
 current_admin;
 // set the admin
-const setAdmin = await $`./target/bin/soroban contract invoke \
+const setAdmin = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source owner \
@@ -27,7 +27,7 @@ setAdmin;
 console.log("admin set ✅");
 
 // check the admin
-const new_admin = await $`./target/bin/soroban contract invoke \
+const new_admin = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source owner \

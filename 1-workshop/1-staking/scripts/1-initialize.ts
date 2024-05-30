@@ -4,7 +4,7 @@ import { $ } from "bun";
 // Deploy the contract to the test network and obtain the contract ID.
 const staking_contractId = process.env.STAKING_CONTRACT_ID;
 // initialize the contract
-const initialize = await $`./target/bin/soroban contract invoke \
+const initialize = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source owner \
@@ -18,7 +18,7 @@ initialize;
 console.log("contract initialized ✅");
 
 // start the campaign
-const startCampaign = await $`./target/bin/soroban contract invoke \
+const startCampaign = await $`soroban contract invoke \
   --id ${staking_contractId} \
   --network testnet \
   --source owner \

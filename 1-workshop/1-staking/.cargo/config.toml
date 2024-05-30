@@ -1,7 +1,9 @@
 # paths = ["/path/to/override"] # path dependency overrides
 
+# cargo install --git https://github.com/stellar/stellar-cli soroban-cli
+
 [alias] # command aliases
-install_soroban = "install --git https://github.com/stellar/stellar-cli --root ./target soroban-cli --debug"
+install_soroban = "cargo install --git https://github.com/stellar/stellar-cli --root ./target soroban-cli --debug"
 b = "build --target wasm32-unknown-unknown --release"
 
 

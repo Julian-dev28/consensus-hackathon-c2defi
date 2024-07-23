@@ -3,7 +3,7 @@ import { Horizon, Keypair, Networks } from "@stellar/stellar-sdk";
 import { $ } from "bun";
 
 // Remove the target and local environment settings to start fresh.
-await $`bun rimraf target/wasm32-unknown-unknown/release .env.local`;
+await $`rm -rf target/wasm32-unknown-unknown/release .env.local`;
 console.log("cleaned target");
 
 // Setup and connect to the Stellar test network.
@@ -54,7 +54,7 @@ console.log("generating conrtract bindings 📝");
 // Generate TypeScript bindings for the deployed contract.
 const bindings = await $`soroban contract bindings typescript \
   --wasm target/wasm32-unknown-unknown/release/soroban_staking_contract.wasm \
-  --id ${staking_contractId} \
+  --id CDAG5XBBXQL5ZCE6HTZCKT4QXGWQF5EJ4DFT4YSC2KTEB2TIJ4XYATDW \
   --network testnet \
   --output-dir ./.soroban/staking-contract \
   --overwrite`.text();

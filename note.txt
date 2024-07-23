@@ -1,0 +1,13 @@
+hey team, 
+
+IUve been thinking alot over the last few days and Ive realized that UI have reservations agaist the ending of conseusns. 
+
+first Id like to thank the team for their amizing support and the great work they did during the conference and the last few months. I think the team is doing a great job and I have no doubt that they will continue to do so. 
+
+During the event, the distribution of duties was efficient according to each team member's skills. The team was able to answer most the questions and concerns of the hackers and we were able to interface with the community directly.
+
+The overwhelming response to our is a testament to the hard work and dedication of all the teas combined.
+
+Unfortunately, there were some technical issues we faced due to breaking changes that were pushed recently that break the development flow of smart contracts. We were able to fix this but due to this overwhelming issue, my time was spread very thin trying to mitigate failures that would have been avoided if we had more time to integrate the changes. Long sotry short, I worked my tail off trying to put out fires. I ubderstand that this is my role but I feel that I could have used help from a bit more technical mentors to help me fix problmes that builders had. 
+
+I get it were not all technical and it is what it is but I think that we could have done better if we had more technical mentors to help me fix the issues that were brought up. That being said, I do not believe that the conclusion of the hackathoin should have been my responsibility. I was actually alone and it felt odd to be the only member of the team I guess I could have asked some one fomr the org but that is just also not right because we are the dev rel team. thats what we do. Why would any waway. .. I felt that the last minute changes really added to my overwhelm. First I'd like tio address teh fact that The developers were our main focus. They were the reason we were there. I focusesd on them, To carry the team like that was an honor but the pressure was inexcrticabplt painful on my pysche and I wreally pushed myself to fget the job done. My best work will happen when I am most comfortable and I'm working on it but sorry I need to rehars plain and siple. I was literally helping people and by the end of the day I was so cooked. Like I honsetly felt like I was going to pass out a few times. I know im not the only one but this really rubs me the wrong way. I know people couldnt change their flights but it justg felt wrong the words that she wasying to me and then blah blah blah and im just like dude thats your job. I't really hurt me man. 

@@ -3,8 +3,8 @@ import { Horizon, Keypair, Networks } from "@stellar/stellar-sdk";
 import { $ } from "bun";
 
 // Remove the target and local environment settings to start fresh.
-await $`bun rimraf target/wasm32-unknown-unknown/release .env.local`;
-console.log("cleaned target");
+// await $`bun rimraf target/wasm32-unknown-unknown/release .env.local`;
+// console.log("cleaned target");
 
 // Setup and connect to the Stellar test network.
 const horizonUrl = "https://horizon-testnet.stellar.org";
